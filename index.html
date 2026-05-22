@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>AI預測系統｜獨立會員數據系統</title>
+<title>AI預測系統｜獨立粉白女性版 V4</title>
 <style>
 :root {
   --bg:#05070d; --panel:#12141c; --panel2:#0d1d20; --line:rgba(255,255,255,.10);
@@ -135,7 +135,7 @@ button,input,select,textarea{font:inherit}
 .clean-title{font-size:clamp(28px,5vw,52px);line-height:1.12}
 
 
-/* AI預測系統 獨立粉白女性版 V3：只調整視覺，不改資料與功能 */
+/* AI預測系統 獨立粉白女性版 V4：只調整視覺，不改資料與功能 */
 :root{
   --bg:#fff9fc;
   --panel:#ffffff;
@@ -205,7 +205,7 @@ table, th, td{
 }
 
 
-/* AI預測系統｜獨立粉白女性版 V3 */
+/* AI預測系統｜獨立粉白女性版 V4 */
 :root{
   --bg:#fff8fc;
   --panel:#ffffff;
@@ -282,6 +282,143 @@ a,.accent,.details summary{
 }
 table,th,td{
   border-color:rgba(255,143,194,.18) !important;
+}
+
+
+/* V4 修正：粉白女性化、移除舊綠色、提升側欄與說明文字可讀性 */
+:root{
+  --bg:#fff8fc !important;
+  --panel:#ffffff !important;
+  --panel2:#fff2f7 !important;
+  --line:rgba(216,92,142,.20) !important;
+  --text:#4b2f3f !important;
+  --muted:#7f6072 !important;
+  --green:#d85c8e !important;
+  --blue:#f08ab7 !important;
+  --yellow:#ffcfdf !important;
+  --red:#c84f7e !important;
+  --chip:#fff0f6 !important;
+}
+html,body{
+  background:
+    radial-gradient(circle at 15% 8%,rgba(255,176,214,.34),transparent 34%),
+    radial-gradient(circle at 90% 15%,rgba(255,219,235,.42),transparent 34%),
+    linear-gradient(135deg,#fff 0%,#fff7fb 52%,#ffeef6 100%) !important;
+  color:#4b2f3f !important;
+}
+.app,.sidebar{
+  background:linear-gradient(180deg,#ffffff 0%,#fff4f9 100%) !important;
+  color:#4b2f3f !important;
+}
+.sidebar{
+  border-right:1px solid rgba(216,92,142,.20) !important;
+}
+.brand h1,.topbar h2,.hero h1,.hero h2,.panel-head h2,.card h3,.flow-step h3,.metric b,.member-card h3{
+  color:#4b2f3f !important;
+}
+.brand p,.nav-title,.muted,.hero p,.side-note,.meta,.metric span,.card p,.flow-step p,.panel p{
+  color:#7f6072 !important;
+}
+.logo,.brand-badge{
+  background:linear-gradient(135deg,#ff84b8,#ffc1dc) !important;
+  color:#ffffff !important;
+  box-shadow:0 10px 24px rgba(216,92,142,.18) !important;
+}
+.topbar{
+  background:rgba(255,255,255,.92) !important;
+  border-bottom:1px solid rgba(216,92,142,.18) !important;
+}
+.nav button{
+  color:#6e4b5d !important;
+}
+.nav button:hover,.nav button.active{
+  background:linear-gradient(135deg,rgba(255,132,184,.18),rgba(255,219,235,.40)) !important;
+  color:#b93f78 !important;
+}
+.nav button.locked{
+  opacity:.78 !important;
+}
+.side-note{
+  background:#ffffff !important;
+  border:1px solid rgba(255,132,184,.30) !important;
+  color:#6e4b5d !important;
+  box-shadow:0 10px 26px rgba(216,92,142,.08) !important;
+}
+.side-note b,.side-note strong{
+  color:#b93f78 !important;
+}
+.hero,.panel,.card,.metric,.member-card,.flow-step,.preview-note,.kpi{
+  background:rgba(255,255,255,.94) !important;
+  border:1px solid rgba(216,92,142,.22) !important;
+  box-shadow:0 14px 34px rgba(216,92,142,.10) !important;
+}
+.hero{
+  background:
+    radial-gradient(circle at 18% 20%,rgba(255,176,214,.25),transparent 42%),
+    linear-gradient(135deg,#fff,#fff1f7) !important;
+}
+.card{
+  background:linear-gradient(135deg,#ffffff 0%,#fff5fa 100%) !important;
+}
+.btn.primary,.pill.green,.tag.green,.status.win{
+  background:linear-gradient(135deg,#ff84b8,#f2a2c8) !important;
+  color:#ffffff !important;
+}
+.btn.ghost,.btn.warn{
+  background:#ffffff !important;
+  color:#b93f78 !important;
+  border:1px solid rgba(216,92,142,.22) !important;
+}
+.badge,.pill,.tag{
+  background:#fff0f6 !important;
+  color:#b93f78 !important;
+  border:1px solid rgba(216,92,142,.22) !important;
+}
+.status.pending{
+  background:#fff0f6 !important;
+  color:#8a6275 !important;
+}
+.status.loss{
+  background:#ffe3ee !important;
+  color:#c84f7e !important;
+}
+.status.win{
+  color:#ffffff !important;
+}
+.details{
+  background:#ffffff !important;
+  border:1px solid rgba(216,92,142,.18) !important;
+}
+.details summary{
+  color:#b93f78 !important;
+}
+.details div{
+  color:#513344 !important;
+}
+input,select,textarea{
+  background:#fffafd !important;
+  color:#4b2f3f !important;
+  border:1px solid rgba(216,92,142,.28) !important;
+}
+table,th,td{
+  border-color:rgba(216,92,142,.18) !important;
+}
+a,.accent{
+  color:#c64f86 !important;
+}
+.notice{
+  background:#fff5fa !important;
+  border:1px solid rgba(216,92,142,.25) !important;
+  color:#5b3a4a !important;
+}
+.error{
+  background:#fff0f5 !important;
+  border-color:rgba(200,79,126,.24) !important;
+  color:#9d315f !important;
+}
+.mobile-menu{
+  background:linear-gradient(135deg,#ff84b8,#ffc1dc) !important;
+  color:#fff !important;
 }
 
 </style>
@@ -774,7 +911,7 @@ function parlayCard(g,admin=false){
 function renderList(list,admin=false){ return list.length?list.map(p=>card(p,admin)).join(""):`<div class="empty">目前沒有資料。</div>`; }
 
 function pageHome(){
-  return `<section class="hero"><div class="pill">AI預測系統｜女性化會員數據平台</div><h1 class="clean-title">每天登入系統，優雅掌握今日主推、串關與賽後紀錄。</h1><p>公開端只說明系統怎麼用，不顯示付費賽事內容。會員登入後，系統會依台灣時間顯示今日或下一個已發布賽事日。</p><button class="btn primary" onclick="toggleMember()">會員登入</button></section>
+  return `<section class="hero"><div class="pill">AI預測系統｜女性化會員數據平台</div><h1 class="clean-title">每天登入系統，清楚掌握今日主推、串關與賽後紀錄。</h1><p>公開端只說明系統怎麼用，不顯示付費賽事內容。會員登入後，系統會依台灣時間顯示今日或下一個已發布賽事日。</p><button class="btn primary" onclick="toggleMember()">會員登入</button></section>
   <div class="flow-grid">
     <div class="flow-step"><b>1</b><h3>先看總覽</h3><p class="muted">掌握今天會員資料、主推單場與串關組合。</p></div>
     <div class="flow-step"><b>2</b><h3>再看方向</h3><p class="muted">每場包含賽事編號、開賽時間、盤口、方向與參考賠率。</p></div>
