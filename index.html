@@ -1,0 +1,1106 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>AI預測系統｜獨立會員數據系統</title>
+<style>
+:root {
+  --bg:#05070d; --panel:#12141c; --panel2:#0d1d20; --line:rgba(255,255,255,.10);
+  --text:#f8fafc; --muted:#a8bed8; --green:#16d6a3; --blue:#38bdf8; --yellow:#facc15;
+  --red:#fb7185; --chip:#202532;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif}
+body{min-height:100vh}
+button,input,select,textarea{font:inherit}
+.app{display:grid;grid-template-columns:290px 1fr;min-height:100vh}
+.sidebar{position:sticky;top:0;height:100vh;background:#080a13;border-right:1px solid var(--line);padding:18px 14px;overflow:auto}
+.brand{display:flex;gap:12px;align-items:center;margin-bottom:26px}
+.logo{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-weight:1000;color:#062018;background:linear-gradient(135deg,#e7ff65,#14d7a3)}
+.brand h1{margin:0;font-size:18px;line-height:1.2}
+.brand p{margin:4px 0 0;color:#7892b4;font-weight:800;font-size:13px}
+.nav-title{margin:18px 10px 8px;color:#6d86a5;font-size:12px;font-weight:900;letter-spacing:.12em}
+.nav button{width:100%;display:flex;align-items:center;gap:9px;border:0;background:transparent;color:#eef5ff;border-radius:15px;padding:13px 14px;margin:4px 0;font-weight:950;cursor:pointer;text-align:left}
+.nav button:hover,.nav button.active{background:rgba(22,214,163,.13);color:#9dffe2}
+.nav button.locked{opacity:.58}
+.side-note{margin-top:26px;border:1px solid rgba(56,189,248,.22);background:rgba(56,189,248,.07);border-radius:16px;padding:14px;line-height:1.7;color:#d9ecff;font-size:13px}
+.main{min-width:0}
+.topbar{height:74px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 28px;border-bottom:1px solid var(--line);background:rgba(5,7,13,.92);position:sticky;top:0;z-index:30;backdrop-filter:blur(14px)}
+.topbar h2{font-size:22px;margin:0}
+.top-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.badge{display:inline-flex;align-items:center;border:1px solid rgba(22,214,163,.35);background:rgba(22,214,163,.10);color:#9dffe2;border-radius:999px;padding:10px 15px;font-weight:1000}
+.btn{border:0;border-radius:999px;padding:12px 18px;font-weight:1000;cursor:pointer}
+.btn.primary{background:var(--green);color:#04160f}
+.btn.ghost{background:rgba(255,255,255,.08);color:#fff;border:1px solid var(--line)}
+.btn.warn{background:rgba(250,204,21,.15);color:#fde68a;border:1px solid rgba(250,204,21,.25)}
+.btn.danger{background:rgba(251,113,133,.14);color:#ffb3c0;border:1px solid rgba(251,113,133,.22)}
+.content{padding:28px;max-width:1180px}
+.hero{border:1px solid var(--line);background:linear-gradient(135deg,rgba(22,214,163,.15),rgba(20,25,38,.94));border-radius:30px;padding:38px;margin-bottom:22px}
+.pill{display:inline-flex;border:1px solid rgba(22,214,163,.35);background:rgba(22,214,163,.12);color:#9dffe2;border-radius:999px;padding:8px 14px;font-weight:1000;margin-bottom:16px}
+.hero h1,.hero h2{font-size:54px;line-height:1.05;margin:0 0 16px}
+.hero p,.muted{color:var(--muted);line-height:1.85}
+.panel{border:1px solid var(--line);background:var(--panel);border-radius:24px;margin:18px 0;overflow:hidden}
+.panel-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;padding:22px;border-bottom:1px solid var(--line)}
+.panel-head h2{font-size:28px;margin:0 0 8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.pad{padding:22px}
+.card{border:1px solid rgba(22,214,163,.22);background:linear-gradient(135deg,rgba(22,214,163,.09),rgba(18,20,28,.92));border-radius:24px;padding:20px}
+.card h3{font-size:27px;margin:0 0 8px}
+.meta{color:#9fc0df;font-weight:800;font-size:14px;line-height:1.75}
+.tags{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.tag{display:inline-flex;border-radius:999px;background:rgba(255,255,255,.09);padding:7px 11px;font-weight:950;font-size:13px;color:#e6f4ff}
+.tag.green{background:rgba(22,214,163,.16);color:#8cffdf}
+.status{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:8px 13px;font-weight:1000}
+.status.win{background:rgba(22,214,163,.18);color:#70ffd7}
+.status.loss{background:rgba(251,113,133,.18);color:#ff9aac}
+.status.pending{background:rgba(148,163,184,.18);color:#e5edf7}
+.card-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:16px 0}
+.kpi{border:1px solid rgba(255,255,255,.11);background:rgba(255,255,255,.045);border-radius:18px;padding:15px}
+.kpi span{display:block;color:#93accb;font-size:12px;font-weight:900;margin-bottom:6px}
+.kpi b{font-size:24px}
+.details{border:1px solid rgba(255,255,255,.10);background:#0b0f19;border-radius:16px;margin-top:12px;overflow:hidden}
+.details summary{cursor:pointer;list-style:none;padding:14px 16px;color:#83ffdc;font-weight:1000}
+.details summary::-webkit-details-marker{display:none}
+.details div{padding:0 16px 16px;white-space:pre-wrap;line-height:1.9;color:#e8f2ff}
+.parlay{border:1px solid rgba(250,204,21,.25);background:linear-gradient(135deg,rgba(250,204,21,.09),rgba(22,214,163,.07),rgba(18,20,28,.95));border-radius:26px;padding:22px;margin:18px 0}
+.parlay h3{font-size:31px;margin:0 0 8px}
+.leg{display:grid;grid-template-columns:90px 1fr 120px;gap:12px;align-items:center;border-top:1px solid rgba(255,255,255,.12);padding:14px 0}
+.leg:first-of-type{border-top:0}
+.leg-no{font-weight:1000;color:var(--yellow)}
+.dashboard{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin:18px 0}
+.metric{border:1px solid rgba(22,214,163,.22);background:linear-gradient(135deg,rgba(22,214,163,.10),rgba(18,20,28,.9));border-radius:22px;padding:18px}
+.metric b{display:block;font-size:35px}
+.metric span{display:block;color:#9fb7d5;font-weight:900;margin-top:8px}
+.meter{height:12px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:10px}
+.meter div{height:100%;background:linear-gradient(90deg,var(--green),var(--blue));border-radius:999px}
+.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;padding:22px}
+.form label{display:grid;gap:7px;color:#bdd8f5;font-weight:950}
+.form input,.form select,.form textarea{width:100%;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.28);color:#fff;border-radius:15px;padding:12px;font-weight:800}
+.form textarea{grid-column:1/-1;min-height:120px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;padding:0 22px 22px}
+.member-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:14px;padding:22px}
+.member-card{border:1px solid rgba(22,214,163,.20);background:rgba(22,214,163,.06);border-radius:22px;padding:18px}
+.member-card h3{font-size:26px;margin:0}
+.searchbar{padding:18px 22px;border-bottom:1px solid var(--line)}
+.searchbar input{width:100%;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.25);color:#fff;border-radius:999px;padding:13px 16px;font-weight:900}
+.notice{border:1px solid rgba(250,204,21,.28);background:rgba(250,204,21,.09);border-radius:18px;padding:16px;margin:16px 0;color:#fff7db;line-height:1.8}
+.error{border:1px solid rgba(251,113,133,.35);background:rgba(251,113,133,.10);border-radius:18px;padding:16px;margin:16px 0;color:#ffd8df;line-height:1.8}
+.empty{padding:40px;text-align:center;color:#9fb7d5}
+.mobile-menu{display:none}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.64);display:none;align-items:center;justify-content:center;z-index:200;padding:20px}
+.modal.open{display:flex}
+.dialog{width:min(520px,100%);background:#111722;border:1px solid var(--line);border-radius:24px;padding:24px}
+.dialog h2{margin:0 0 14px}
+.dialog input{width:100%;margin:8px 0;border:1px solid var(--line);background:#070a11;color:#fff;border-radius:14px;padding:13px}
+@media(max-width:860px){
+  .app{display:block}
+  .sidebar{position:fixed;inset:0 auto 0 0;width:82vw;max-width:320px;transform:translateX(-105%);transition:.22s;z-index:100}
+  body.menu-open .sidebar{transform:translateX(0)}
+  .topbar{height:auto;min-height:78px;padding:16px;align-items:flex-start;flex-direction:column}
+  .content{padding:18px 14px 90px}
+  .hero{padding:26px 20px;border-radius:24px}
+  .hero h1,.hero h2{font-size:36px}
+  .leg{grid-template-columns:1fr;gap:6px}
+  .card-top{align-items:stretch}
+  .mobile-menu{display:inline-flex;position:fixed;right:18px;bottom:72px;z-index:110;border:0;border-radius:999px;padding:15px 18px;font-weight:1000;background:linear-gradient(135deg,var(--green),var(--blue));color:#04160f;box-shadow:0 15px 40px rgba(0,0,0,.35)}
+  .kpis{grid-template-columns:1fr 1fr}
+  .card h3,.panel-head h2{font-size:24px}
+}
+@media(max-width:520px){.dashboard,.kpis{grid-template-columns:1fr}.top-actions{width:100%}.btn,.badge{width:100%;justify-content:center}}
+
+.link-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.link-card{display:block;text-decoration:none;color:var(--text);border:1px solid rgba(22,214,163,.22);background:linear-gradient(135deg,rgba(22,214,163,.08),rgba(18,20,28,.95));border-radius:22px;padding:20px;min-height:150px}
+.link-card:hover{border-color:rgba(22,214,163,.55);transform:translateY(-1px)}
+.link-card h3{font-size:25px;margin:0 0 10px}
+.link-card p{color:var(--muted);line-height:1.75;margin:0}
+.step-list{display:grid;gap:12px}
+.step{border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.04);border-radius:18px;padding:16px;line-height:1.8}
+.step b{color:#9dffe2}
+.contact-box{border:1px solid rgba(56,189,248,.24);background:rgba(56,189,248,.08);border-radius:22px;padding:20px;line-height:1.9}
+.contact-box strong{color:#fff}
+
+
+.delete-tools{border:1px solid rgba(251,113,133,.25);background:rgba(251,113,133,.06);border-radius:22px;padding:18px;margin:18px 0}
+.delete-tools h3{margin:0 0 8px;font-size:24px}
+.delete-tools .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:12px}
+.delete-tools input{width:100%;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.28);color:#fff;border-radius:15px;padding:12px;font-weight:800}
+
+
+.preview-note{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);border-radius:22px;padding:18px;line-height:1.75;margin:16px 0}
+.flow-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.flow-step{border:1px solid rgba(22,214,163,.18);background:rgba(22,214,163,.06);border-radius:20px;padding:18px;cursor:pointer}
+.flow-step b{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:999px;background:rgba(22,214,163,.18);margin-bottom:10px}
+.clean-title{font-size:clamp(28px,5vw,52px);line-height:1.12}
+
+
+/* AI預測系統 獨立粉白女性版 V3：只調整視覺，不改資料與功能 */
+:root{
+  --bg:#fff9fc;
+  --panel:#ffffff;
+  --panel2:#fff3f8;
+  --green:#ff7fb8;
+  --blue:#ffb3d1;
+  --yellow:#ffd9ea;
+  --red:#ff5f9e;
+  --text:#5b3a4a;
+  --muted:#8e6b7d;
+}
+body{
+  background:
+    radial-gradient(circle at 18% 8%,rgba(255,164,204,.30),transparent 34%),
+    radial-gradient(circle at 90% 18%,rgba(255,206,225,.30),transparent 32%),
+    linear-gradient(135deg,#fffdfd 0%,#fff6fa 52%,#fff0f7 100%) !important;
+  color:var(--text) !important;
+}
+.logo,.brand-badge{
+  background:linear-gradient(135deg,#ff8fc2,#ffc6dd) !important;
+  color:#ffffff !important;
+}
+.hero,.card,.panel,.metric,.member-card,.flow-step,.preview-note{
+  border-color:rgba(255,143,194,.28) !important;
+  box-shadow:0 14px 36px rgba(255,143,194,.10) !important;
+  background:#ffffff !important;
+}
+.hero{
+  background:
+    radial-gradient(circle at 18% 20%,rgba(255,170,208,.18),transparent 40%),
+    linear-gradient(135deg,rgba(255,214,232,.55),rgba(255,244,249,.95)) !important;
+}
+.btn.primary,.pill.green,.tag.green,.status.win{
+  background:linear-gradient(135deg,#ff8fc2,#ffbad8) !important;
+  color:#ffffff !important;
+}
+.nav a.active,.side a.active{
+  background:rgba(255,143,194,.14) !important;
+  color:#b84c82 !important;
+}
+.nav a,.side a,.muted,small,span,p,label,li,div,h1,h2,h3,h4{
+  color:inherit;
+}
+a,.accent,.details summary{
+  color:#d14d87 !important;
+}
+input,select,textarea{
+  border-color:rgba(255,143,194,.28) !important;
+  background:#fffafd !important;
+  color:#5b3a4a !important;
+}
+table, th, td{
+  border-color:rgba(255,143,194,.22) !important;
+}
+.status.loss{
+  background:#ffe2ec !important;
+  color:#c5487f !important;
+}
+.status.pending{
+  background:#fff3f8 !important;
+  color:#b36a8c !important;
+}
+.pill,.tag{
+  background:#fff0f6 !important;
+  color:#c65489 !important;
+  border-color:rgba(255,143,194,.20) !important;
+}
+
+
+/* AI預測系統｜獨立粉白女性版 V3 */
+:root{
+  --bg:#fff8fc;
+  --panel:#ffffff;
+  --panel2:#fff1f7;
+  --green:#ff7fb8;
+  --blue:#f5a9d4;
+  --yellow:#ffd7e8;
+  --red:#ff5f9e;
+  --text:#513344;
+  --muted:#946f82;
+}
+body{
+  background:
+    radial-gradient(circle at 15% 8%,rgba(255,169,207,.32),transparent 34%),
+    radial-gradient(circle at 88% 18%,rgba(255,219,235,.45),transparent 34%),
+    linear-gradient(135deg,#ffffff 0%,#fff7fb 52%,#ffeef6 100%) !important;
+  color:var(--text) !important;
+}
+.app,.layout,.sidebar,aside,nav{
+  background:linear-gradient(180deg,#ffffff 0%,#fff6fa 100%) !important;
+  border-color:rgba(255,143,194,.24) !important;
+}
+.logo,.brand-badge{
+  background:linear-gradient(135deg,#ff7fb8,#ffc0da) !important;
+  color:#fff !important;
+  box-shadow:0 12px 28px rgba(255,127,184,.22) !important;
+}
+.hero,.card,.panel,.metric,.member-card,.flow-step,.preview-note{
+  background:rgba(255,255,255,.92) !important;
+  border:1px solid rgba(255,143,194,.26) !important;
+  box-shadow:0 14px 36px rgba(255,127,184,.10) !important;
+}
+.hero{
+  background:
+    radial-gradient(circle at 15% 20%,rgba(255,169,207,.22),transparent 40%),
+    linear-gradient(135deg,#fff9fc,#fff0f7) !important;
+}
+button,.btn{
+  border-color:rgba(255,127,184,.26) !important;
+}
+.btn.primary,.pill.green,.tag.green,.status.win{
+  background:linear-gradient(135deg,#ff7fb8,#ffc0da) !important;
+  color:#fff !important;
+}
+.btn.ghost,.btn.secondary{
+  background:#fff !important;
+  color:#c44e86 !important;
+}
+.nav button,.nav a,.side button,.side a{
+  background:transparent !important;
+  color:#7d5368 !important;
+  border-color:rgba(255,143,194,.16) !important;
+}
+.nav button.active,.nav a.active,.side button.active,.side a.active{
+  background:linear-gradient(135deg,rgba(255,127,184,.16),rgba(255,206,226,.30)) !important;
+  color:#bd4f83 !important;
+}
+input,select,textarea{
+  background:#fffafd !important;
+  color:#513344 !important;
+  border-color:rgba(255,143,194,.30) !important;
+}
+.pill,.tag,.status.pending{
+  background:#fff0f6 !important;
+  color:#bf4d82 !important;
+  border-color:rgba(255,143,194,.22) !important;
+}
+.status.loss{
+  background:#ffe5ef !important;
+  color:#c5487f !important;
+}
+a,.accent,.details summary{
+  color:#d14d87 !important;
+}
+table,th,td{
+  border-color:rgba(255,143,194,.18) !important;
+}
+
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand"><div class="logo">AI</div><div><h1>AI預測系統</h1><p>Member Intelligence System</p></div></div>
+    <div id="nav" class="nav"></div>
+    <div class="side-note"><b>使用說明</b><br>本系統內容僅供會員資料整理與賽事分析參考，不構成任何保證獲利或投注建議。</div>
+    <div class="side-note"><b>風險提醒</b><br>請理性評估風險，依自身狀況控管資金。所有賽事結果仍可能受臨場變化影響。</div>
+  </aside>
+  <main class="main">
+    <header class="topbar">
+      <div><div class="meta">AI PREDICT SYSTEM</div><h2>正式會員數據系統</h2></div>
+      <div class="top-actions">
+        <span id="userBadge" class="badge" style="display:none"></span>
+        <button id="adminBtn" class="btn ghost" style="display:none" onclick="toggleAdmin()">後台登入</button>
+        <button class="btn primary" onclick="toggleMember()"><span id="memberBtnText">會員登入</span></button>
+      </div>
+    </header>
+    <section id="root" class="content"></section>
+  </main>
+</div>
+<button class="mobile-menu" onclick="document.body.classList.toggle('menu-open')">☰ 選單</button>
+
+<div id="memberModal" class="modal">
+  <div class="dialog">
+    <h2>會員登入</h2>
+    <p class="muted">請輸入會員啟用碼與會員密碼。會員無法自行修改密碼。</p>
+    <input id="loginCode" placeholder="會員啟用碼">
+    <input id="loginPass" placeholder="會員密碼" type="password">
+    <div class="actions" style="padding:12px 0 0">
+      <button class="btn primary" onclick="memberLogin()">登入會員</button>
+      <button class="btn ghost" onclick="closeModal('memberModal')">取消</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = "https://zxwmtlywlzgrrpjmlmam.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_ZIBlNBi3e3f4JACGBSHofQ_FqysFJLE";
+const OFFICIAL_0502 = [
+  {
+    "event_no": "109",
+    "match_date": "2026-05-02",
+    "match_time": "02:20",
+    "publish_date": "2026-05-01",
+    "sport": "棒球",
+    "league": "美國職棒",
+    "away_team": "亞歷桑那響尾蛇",
+    "home_team": "芝加哥小熊",
+    "market": "[總分]大小 6.5",
+    "pick": "大 6.5",
+    "odds": "1.58",
+    "status": "過關",
+    "visibility": "paid",
+    "module": "parlay_combo",
+    "parlay_group": "5/2 A｜3關串關｜總賠率 4.46",
+    "result_score": "亞歷桑那響尾蛇 5：6 芝加哥小熊",
+    "analysis": "【賽事編號 109｜賽前分析】盤口位置：本場盤口為 [總分]大小 6.5，推薦方向為 大 6.5。賽前重點先看 兩隊前段攻勢、先發投手壓制力與牛棚消耗；若臨場盤口沒有明顯反向、先發與輪替條件沒有重大變化，才保留此方向。最終結論：會員參考方向為 大 6.5。",
+    "review": "【賽後覆盤】亞歷桑那響尾蛇 5：6 芝加哥小熊，總分 11 分，大 6.5 過關。賽前大分邏輯成立，得分效率高於盤口門檻，前中段攻勢足以支撐大分方向。結論：大 6.5 過關。",
+    "win_rate": "",
+    "expected_value": "",
+    "stake": "",
+    "risk_level": "低"
+  },
+  {
+    "event_no": "130",
+    "match_date": "2026-05-02",
+    "match_time": "07:10",
+    "publish_date": "2026-05-01",
+    "sport": "棒球",
+    "league": "美國職棒",
+    "away_team": "休士頓太空人",
+    "home_team": "波士頓紅襪",
+    "market": "不讓分",
+    "pick": "波士頓紅襪",
+    "odds": "1.63",
+    "status": "過關",
+    "visibility": "paid",
+    "module": "parlay_combo",
+    "parlay_group": "5/2 A｜3關串關｜總賠率 4.46",
+    "result_score": "休士頓太空人 1：3 波士頓紅襪",
+    "analysis": "【賽事編號 130｜賽前分析】盤口位置：本場盤口為 不讓分，推薦方向為 波士頓紅襪。賽前重點先看 紅襪主場節奏、投打穩定度與太空人得分效率；若臨場盤口沒有明顯反向、先發與輪替條件沒有重大變化，才保留此方向。最終結論：會員參考方向為 波士頓紅襪。",
+    "review": "【賽後覆盤】休士頓太空人 1：3 波士頓紅襪，紅襪不讓分方向過關。紅襪有效限制太空人得分，低比分環境下仍守住勝出結果。結論：波士頓紅襪過關。",
+    "win_rate": "",
+    "expected_value": "",
+    "stake": "",
+    "risk_level": "低"
+  },
+  {
+    "event_no": "128",
+    "match_date": "2026-05-02",
+    "match_time": "07:10",
+    "publish_date": "2026-05-01",
+    "sport": "棒球",
+    "league": "美國職棒",
+    "away_team": "舊金山巨人",
+    "home_team": "坦帕灣光芒",
+    "market": "[總分]大小 7.5",
+    "pick": "大 7.5",
+    "odds": "1.73",
+    "status": "未過",
+    "visibility": "paid",
+    "module": "parlay_combo",
+    "parlay_group": "5/2 A｜3關串關｜總賠率 4.46",
+    "result_score": "舊金山巨人 0：3 坦帕灣光芒",
+    "analysis": "【賽事編號 128｜賽前分析】盤口位置：本場盤口為 [總分]大小 7.5，推薦方向為 大 7.5。賽前重點先看 雙方前中段得分延續性、先發壓制力與牛棚輪替；若臨場盤口沒有明顯反向、先發與輪替條件沒有重大變化，才保留此方向。最終結論：會員參考方向為 大 7.5。",
+    "review": "【未過覆盤】舊金山巨人 0：3 坦帕灣光芒，總分 3 分，未達大 7.5。賽前大分需要雙方前中段都有得分延續，但實際比賽巨人進攻端遭壓制，整體得分節奏偏低。修正方向：後續遇到同類大分盤，需提高對單隊攻擊端是否能突破先發的權重，避免只看盤口門檻。結論：大 7.5 未過。",
+    "win_rate": "",
+    "expected_value": "",
+    "stake": "",
+    "risk_level": "低"
+  },
+  {
+    "event_no": "319",
+    "match_date": "2026-05-02",
+    "match_time": "09:30",
+    "publish_date": "2026-05-01",
+    "sport": "籃球",
+    "league": "美國職籃 NBA",
+    "away_team": "洛杉磯湖人",
+    "home_team": "休士頓火箭",
+    "market": "不讓分",
+    "pick": "洛杉磯湖人",
+    "odds": "2.00",
+    "status": "過關",
+    "visibility": "paid",
+    "module": "main_single",
+    "parlay_group": "",
+    "result_score": "洛杉磯湖人 98：78 休士頓火箭",
+    "analysis": "【賽事編號 319｜賽前分析】盤口位置：本場盤口為 不讓分，推薦方向為 洛杉磯湖人。賽前重點先看 湖人節奏控制、防守端壓制與關鍵球處理；若臨場盤口沒有明顯反向、先發與輪替條件沒有重大變化，才保留此方向。最終結論：會員參考方向為 洛杉磯湖人。",
+    "review": "【賽後覆盤】洛杉磯湖人 98：78 休士頓火箭，湖人不讓分方向過關。湖人防守端壓低火箭進攻效率，並逐步拉開比分。結論：洛杉磯湖人過關。",
+    "win_rate": "",
+    "expected_value": "",
+    "stake": "",
+    "risk_level": "低"
+  },
+  {
+    "event_no": "110",
+    "match_date": "2026-05-02",
+    "match_time": "02:20",
+    "publish_date": "2026-05-01",
+    "sport": "棒球",
+    "league": "美國職棒",
+    "away_team": "亞歷桑那響尾蛇",
+    "home_team": "芝加哥小熊",
+    "market": "[總分]大小 6.5",
+    "pick": "大 6.5",
+    "odds": "1.48",
+    "status": "過關",
+    "visibility": "paid",
+    "module": "parlay_combo",
+    "parlay_group": "5/2 B｜3關串關｜總賠率 3.47",
+    "result_score": "亞歷桑那響尾蛇 5：6 芝加哥小熊",
+    "analysis": "【賽事編號 110｜賽前分析】盤口位置：本場盤口為 [總分]大小 6.5，推薦方向為 大 6.5。賽前重點先看 總分門檻、兩隊進攻串聯與投手壓制力；若臨場盤口沒有明顯反向、先發與輪替條件沒有重大變化，才保留此方向。最終結論：會員參考方向為 大 6.5。",
+    "review": "【賽後覆盤】亞歷桑那響尾蛇 5：6 芝加哥小熊，總分 11 分，大 6.5 過關。此關盤口門檻相對較低，實際比賽得分效率足以支撐大分方向。結論：大 6.5 過關。",
+    "win_rate": "",
+    "expected_value": "",
+    "stake": "",
+    "risk_level": "低"
+  },
+  {
+    "event_no": "116",
+    "match_date": "2026-05-02",
+    "match_time": "06:45",
+    "publish_date": "2026-05-01",
+    "sport": "棒球",
+    "league": "美國職棒",
+    "away_team": "辛辛那提紅人",
+    "home_team": "匹茲堡海盜",
+    "market": "辛辛那提紅人 大小 3.5",
+    "pick": "辛辛那提紅人 大 3.5",
+    "odds": "1.65",
+    "status": "未過",
+    "visibility": "paid",
+    "module": "parlay_combo",
+    "parlay_group": "5/2 B｜3關串關｜總賠率 3.47",
+    "result_score": "辛辛那提紅人 1：9 匹茲堡海盜",
+    "analysis": "【賽事編號 116｜賽前分析】盤口位置：本場盤口為 辛辛那提紅人 大小 3.5，推薦方向為 辛辛那提紅人 大 3.5。賽前重點先看 紅人單隊進攻效率、上壘能力與牛棚階段延續性；若臨場盤口沒有明顯反向、先發與輪替條件沒有重大變化，才保留此方向。最終結論：會員參考方向為 辛辛那提紅人 大 3.5。",
+    "review": "【未過覆盤】辛辛那提紅人 1：9 匹茲堡海盜，紅人僅 1 分，單隊大 3.5 未過。賽前判斷需要紅人前中段有連續上壘與得分效率，但實際進攻無法延續，單隊得分盤沒有打開。修正方向：單隊大分需更重視打線連續性與對手先發壓制力，不宜只用賠率與盤口門檻判斷。結論：辛辛那提紅人 大 3.5 未過。",
+    "win_rate": "",
+    "expected_value": "",
+    "stake": "",
+    "risk_level": "低"
+  },
+  {
+    "event_no": "125",
+    "match_date": "2026-05-02",
+    "match_time": "08:15",
+    "publish_date": "2026-05-01",
+    "sport": "棒球",
+    "league": "美國職棒",
+    "away_team": "洛杉磯道奇",
+    "home_team": "聖路易紅雀",
+    "market": "不讓分",
+    "pick": "洛杉磯道奇",
+    "odds": "1.42",
+    "status": "未過",
+    "visibility": "paid",
+    "module": "parlay_combo",
+    "parlay_group": "5/2 B｜3關串關｜總賠率 3.47",
+    "result_score": "洛杉磯道奇 2：7 聖路易紅雀",
+    "analysis": "【賽事編號 125｜賽前分析】盤口位置：本場盤口為 不讓分，推薦方向為 洛杉磯道奇。賽前重點先看 道奇整體戰力、先發穩定度與紅雀近期攻擊狀態；若臨場盤口沒有明顯反向、先發與輪替條件沒有重大變化，才保留此方向。最終結論：會員參考方向為 洛杉磯道奇。",
+    "review": "【未過覆盤】洛杉磯道奇 2：7 聖路易紅雀，道奇不讓分未過。賽前看重道奇整體戰力與低賠穩定性，但實際比賽紅雀攻勢更有效率，道奇得分不足且無法追回落後。修正方向：低賠熱門方仍需檢查臨場投打條件，不可因名氣與低賠率降低風險判斷。結論：洛杉磯道奇未過。",
+    "win_rate": "",
+    "expected_value": "",
+    "stake": "",
+    "risk_level": "低"
+  },
+  {
+    "event_no": "139",
+    "match_date": "2026-05-02",
+    "match_time": "09:45",
+    "publish_date": "2026-05-01",
+    "sport": "棒球",
+    "league": "美國職棒",
+    "away_team": "堪薩斯皇家",
+    "home_team": "西雅圖水手",
+    "market": "不讓分",
+    "pick": "堪薩斯皇家",
+    "odds": "1.95",
+    "status": "過關",
+    "visibility": "paid",
+    "module": "main_single",
+    "parlay_group": "",
+    "result_score": "堪薩斯皇家 7：6 西雅圖水手",
+    "analysis": "【賽事編號 139｜賽前分析】盤口位置：本場盤口為 不讓分，推薦方向為 堪薩斯皇家。賽前重點先看 皇家高賠率下的勝出空間、前段攻擊效率與牛棚後段穩定度；若臨場盤口沒有明顯反向、先發與輪替條件沒有重大變化，才保留此方向。最終結論：會員參考方向為 堪薩斯皇家。",
+    "review": "【賽後覆盤】堪薩斯皇家 7：6 西雅圖水手，皇家不讓分過關。此場進入高比分拉鋸，皇家仍成功守住勝利，高賠單場方向成立。結論：堪薩斯皇家過關。",
+    "win_rate": "",
+    "expected_value": "",
+    "stake": "",
+    "risk_level": "低"
+  }
+];
+
+let page = "home";
+let isMember = false;
+let isAdmin = false;
+let memberCode = localStorage.getItem("pap_member_code") || "";
+let memberPass = localStorage.getItem("pap_member_pass") || "";
+let memberInfo = null;
+let adminPassword = localStorage.getItem("pap_admin_password") || "";
+let rows = [];
+let activationCodes = [];
+let siteStatus = { data_status:"ready", maintenance_enabled:"false", maintenance_message:"" };
+let loadError = "";
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function taiwanDate(offsetDays=0){
+  const now = new Date();
+  const taipeiNow = new Date(now.toLocaleString("en-US", {timeZone:"Asia/Taipei"}));
+  taipeiNow.setDate(taipeiNow.getDate()+offsetDays);
+  const y = taipeiNow.getFullYear();
+  const m = String(taipeiNow.getMonth()+1).padStart(2,"0");
+  const d = String(taipeiNow.getDate()).padStart(2,"0");
+  return `${y}-${m}-${d}`;
+}
+const today = () => taiwanDate(0);
+const tomorrow = () => taiwanDate(1);
+
+async function rpc(name, body={}){
+  if(!SUPABASE_URL || !SUPABASE_ANON_KEY) throw new Error("Supabase 設定不足");
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/${name}`, {
+    method:"POST",
+    headers:{"Content-Type":"application/json","apikey":SUPABASE_ANON_KEY,"Authorization":"Bearer "+SUPABASE_ANON_KEY},
+    body: JSON.stringify(body)
+  });
+  const text = await res.text();
+  let data = null;
+  try{ data = text ? JSON.parse(text) : null; }catch(e){ data = text; }
+  if(!res.ok) throw new Error((data && (data.message || data.details || data.hint)) || text || res.statusText);
+  return data;
+}
+async function rpcAny(list){
+  let last;
+  for(const item of list){
+    try{ return await rpc(item.name,item.body||{}); }catch(e){ last=e; }
+  }
+  throw last || new Error("所有函式呼叫失敗");
+}
+function normalize(p){
+  return {
+    id:p.id, eventNo:p.event_no||p.eventNo||"", date:p.match_date||p.date||"", time:p.match_time||p.time||"",
+    publishDate:p.publish_date||p.publishDate||"", sport:p.sport||"", league:p.league||"",
+    away:p.away_team||p.away||"", home:p.home_team||p.home||"", market:p.market||"", pick:p.pick||"",
+    odds:p.odds||"", status:p.status||"未開賽", visibility:p.visibility||"paid", module:p.module||"member_today",
+    analysis:p.analysis||"", review:p.review||"", parlayGroup:p.parlay_group||p.parlayGroup||"",
+    resultScore:p.result_score||p.resultScore||"", createdAt:p.created_at||"", updatedAt:p.updated_at||""
+  };
+}
+function statusClass(p){ return ["過關","過"].includes(p.status) ? "win" : ["未過","沒過","失敗"].includes(p.status) ? "loss" : "pending"; }
+function isWin(p){ return ["過關","過"].includes(p.status); }
+function isLoss(p){ return ["未過","沒過","失敗"].includes(p.status); }
+function isSettled(p){ return isWin(p)||isLoss(p); }
+function matchName(p){ return `${p.away||"客隊"} vs ${p.home||"主隊"}`; }
+function displayDate(d){ if(!d) return "-"; const a=String(d).split("-"); return a.length===3 ? `${Number(a[1])}/${Number(a[2])}` : d; }
+function fullTime(p){ return `${p.date||"-"} ${p.time||""}`.trim(); }
+function publishTime(p){ return p.publishDate ? `${p.publishDate} 發布` : p.createdAt ? new Date(p.createdAt).toLocaleString("zh-TW") : "尚未記錄"; }
+function latestDate(list){ const ds=list.map(p=>p.date).filter(Boolean).sort(); return ds.length ? ds[ds.length-1] : today(); }
+function memberDisplayDate(list){
+  const ds=[...new Set(list.map(p=>p.date).filter(Boolean))].sort();
+  const twToday=today();
+  if(ds.includes(twToday)) return {date:twToday, mode:"today"};
+  const future=ds.find(d=>d>twToday);
+  if(future) return {date:future, mode:"future"};
+  return {date:"", mode:"none"};
+}
+function memberDayRows(list){
+  const info=memberDisplayDate(list);
+  return {info, day: info.date ? list.filter(p=>p.date===info.date) : []};
+}
+function memberDateHero(info, title){
+  const twToday=today();
+  if(info.mode==="today") return `<section class="hero"><div class="pill">台灣時間｜${displayDate(twToday)}</div><h2>${displayDate(info.date)} ${title}</h2><p>目前顯示今日實際開賽賽事。</p></section>`;
+  if(info.mode==="future") return `<section class="hero"><div class="pill">台灣時間｜${displayDate(twToday)}｜提前發布</div><h2>${displayDate(info.date)} ${title}</h2><p>今日尚無實際開賽資料，系統自動顯示下一個已發布賽事日，請以實際開賽日期為準。</p></section>`;
+  return `<section class="hero"><div class="pill">台灣時間｜${displayDate(twToday)}</div><h2>${displayDate(twToday)} 今日資料尚未發布</h2><p>目前沒有今日或未來已發布賽事。請等待後台更新會員資料。</p></section>`;
+}
+function marketKind(p){ const m=String(p.market||"").trim(); if(!m) return "其他"; if(m.includes("不讓")||m.includes("PK")) return "不讓分"; if(m.includes("大小")||m.includes("總分")||/^大|^小/.test(p.pick||"")) return "大小分"; if(m.includes("讓分")) return "讓分"; return m; }
+function visibleRows(){ return rows.filter(p=>p.visibility!=="hidden"); }
+function memberRows(){ return visibleRows().filter(p=>["paid","member","付費會員"].includes(p.visibility)); }
+
+async function loadData(){
+  loadError = "";
+  if(memberCode && memberPass){
+    try{
+      const info = await rpcAny([
+        {name:"member_access_info_v55",body:{p_code:memberCode,p_password:memberPass}},
+        {name:"member_access_info_v54",body:{p_code:memberCode,p_password:memberPass}},
+        {name:"member_access_info",body:{p_code:memberCode,p_password:memberPass}}
+      ]);
+      memberInfo = Array.isArray(info) ? info[0] : info;
+      isMember = !!(memberInfo && (memberInfo.allowed || memberInfo.has_access));
+      if(isMember){
+        const data = await rpcAny([
+          {name:"get_member_predictions_v55",body:{p_code:memberCode,p_password:memberPass}},
+          {name:"get_member_predictions_v54",body:{p_code:memberCode,p_password:memberPass}},
+          {name:"get_member_predictions",body:{p_code:memberCode,p_password:memberPass}}
+        ]);
+        rows = (Array.isArray(data)?data:[]).map(normalize);
+      }
+    }catch(e){ loadError = "會員資料讀取失敗：" + e.message; isMember=false; }
+  }
+  if(isAdmin && adminPassword){
+    try{
+      const data = await rpcAny([
+        {name:"admin_list_predictions_v55",body:{p_admin_password:adminPassword}},
+        {name:"admin_list_predictions_v54",body:{p_admin_password:adminPassword}},
+        {name:"admin_list_predictions_v53",body:{p_admin_password:adminPassword}}
+      ]);
+      rows = (Array.isArray(data)?data:[]).map(normalize);
+    }catch(e){ loadError = "後台賽事讀取失敗：" + e.message; }
+    try{
+      const codes = await rpcAny([
+        {name:"admin_list_activation_codes_v55",body:{p_admin_password:adminPassword}},
+        {name:"admin_list_activation_codes",body:{p_admin_password:adminPassword}}
+      ]);
+      activationCodes = Array.isArray(codes)?codes:[];
+    }catch(e){ /* keep empty */ }
+  }
+  if(!isMember && !isAdmin){
+    // Public side never hangs. It only uses local public shell unless public rows exist through future RPC.
+    rows = [];
+  }
+}
+
+function navButton(id,label,locked=false){ return `<button data-page="${id}" class="${page===id?'active':''} ${locked?'locked':''}" onclick="go('${id}')">${label}</button>`; }
+function updateNav(){
+  const n=$("nav");
+  if(isAdmin){
+    n.innerHTML = `
+      <div class="nav-title">後台營運</div>
+      ${navButton("admin_home","🏠 後台總覽")}
+      ${navButton("admin_builder","➕ 新增 / 修改賽事")}
+      ${navButton("admin_settle","✅ 賽後結算")}
+      ${navButton("admin_members","🔐 會員管理")}
+      ${navButton("admin_import","📥 批量匯入")}
+      ${navButton("admin_status","🛠 系統狀態")}
+      <div class="nav-title">會員預覽</div>
+      ${navButton("member_today","💎 會員資料總覽")}
+      ${navButton("member_single","🔒 主推單場")}
+      ${navButton("member_parlay","🔒 串關配置")}
+      ${navButton("record","📈 戰績儀表板")}
+      ${navButton("guide","📘 使用指南")}
+      ${navButton("betting","💵 投注教學")}
+      ${navButton("scores","📡 比分 / 直播入口")}
+      ${navButton("contact","💬 客服中心")}
+    `;
+  }else if(isMember){
+    n.innerHTML = `
+      <div class="nav-title">會員端</div>
+      ${navButton("member_home","🏠 系統首頁")}
+      ${navButton("member_today","💎 會員資料總覽")}
+      ${navButton("member_single","🔒 主推單場")}
+      ${navButton("member_parlay","🔒 串關配置")}
+      ${navButton("record","📈 戰績儀表板")}
+      ${navButton("review","📝 失利覆盤")}
+      ${navButton("guide","📘 使用指南")}
+      ${navButton("betting","💵 投注教學")}
+      ${navButton("scores","📡 比分 / 直播入口")}
+      ${navButton("contact","💬 客服中心")}
+    `;
+  }else{
+    n.innerHTML = `
+      <div class="nav-title">公開端</div>
+      ${navButton("home","🏠 系統首頁")}
+      ${navButton("public_record","📈 公開戰績摘要")}
+      ${navButton("guide","📘 使用指南")}
+      ${navButton("betting","💵 投注教學")}
+      ${navButton("scores","📡 比分 / 直播入口")}
+      ${navButton("contact","💬 客服中心")}
+    `;
+  }
+}
+function updateUser(){
+  const b=$("userBadge");
+  const adminBtn=$("adminBtn");
+  const isAdminRoute = location.hash === "#admin";
+  if(isAdmin){
+    b.style.display="inline-flex";
+    b.textContent="後台管理模式";
+    adminBtn.style.display="inline-flex";
+    adminBtn.textContent="登出後台";
+  }else if(isMember){
+    b.style.display="inline-flex";
+    const d=Number(memberInfo?.days_left);
+    b.textContent=(d>=9000||memberCode.toUpperCase()==="VIP001")?"永久會員端":`付費會員端｜剩 ${d||"-"} 天`;
+    adminBtn.style.display=isAdminRoute ? "inline-flex" : "none";
+    adminBtn.textContent="後台登入";
+  }else{
+    b.style.display="none";
+    adminBtn.style.display=isAdminRoute ? "inline-flex" : "none";
+    adminBtn.textContent="後台登入";
+  }
+  $("memberBtnText").textContent = isMember ? "登出會員" : "會員登入";
+}
+function go(p){ page=p; document.body.classList.remove("menu-open"); render(); }
+
+function statData(list){
+  const settled=list.filter(isSettled), w=settled.filter(isWin).length, l=settled.filter(isLoss).length, pend=list.length-settled.length;
+  const rate=settled.length?Math.round(w/settled.length*1000)/10:0;
+  return {total:list.length,settled:settled.length,w,l,pend,rate};
+}
+function dashboard(title,list){
+  const s=statData(list), singles=list.filter(p=>p.module==="main_single"), parlays=list.filter(p=>p.module==="parlay_combo");
+  const bySport={}, byMarket={};
+  list.forEach(p=>{ (bySport[p.sport||"其他"] ||= []).push(p); (byMarket[marketKind(p)] ||= []).push(p); });
+  const seg=(name,arr)=>{ const a=statData(arr); return `<div class="card"><h3>${esc(name)}</h3><p class="muted">已結算 ${a.settled}｜過 ${a.w}｜未過 ${a.l}</p><div class="meter"><div style="width:${Math.min(100,a.rate)}%"></div></div><p class="muted">勝率 ${a.rate}%</p></div>`; };
+  return `<section class="hero"><div class="pill">AI預測系統｜透明戰績</div><h2>${esc(title)}</h2><p>只呈現整體結果與分項表現，不把 30 場逐場明細塞滿畫面。失利原因集中在「失利覆盤」。</p></section>
+  <div class="dashboard">
+    <div class="metric"><b>${s.total}</b><span>總資料</span></div>
+    <div class="metric"><b>${s.pend}</b><span>未開賽</span></div>
+    <div class="metric"><b>${s.w}/${s.l}</b><span>過關 / 未過</span></div>
+    <div class="metric"><b>${s.rate}%</b><span>已結算勝率</span><div class="meter"><div style="width:${Math.min(100,s.rate)}%"></div></div></div>
+  </div>
+  <section class="panel"><div class="panel-head"><div><h2>分項表現</h2><p class="muted">主推、串關、球種與盤口分類。</p></div></div><div class="pad grid">
+    ${seg("主推單場",singles)}${seg("串關關卡",parlays)}${Object.entries(bySport).map(([k,v])=>seg(k,v)).join("")}${Object.entries(byMarket).map(([k,v])=>seg(k,v)).join("")}
+  </div></section>`;
+}
+function kpi(label,value){ return `<div class="kpi"><span>${esc(label)}</span><b>${esc(value||"-")}</b></div>`; }
+function card(p,admin=false){
+  return `<article class="card">
+    <div class="card-top"><div><h3>${esc(p.pick||matchName(p))}</h3><div class="meta">${esc(p.league||p.sport||"-")}｜${esc(matchName(p))}｜編號 ${esc(p.eventNo||"待補")}</div></div><span class="status ${statusClass(p)}">${esc(p.status)}</span></div>
+    <div class="kpis">
+      ${kpi("實際開賽時間",fullTime(p))}
+      ${kpi("盤口",p.market)}
+      ${kpi("推薦方向",p.pick)}
+      ${kpi("參考賠率",p.odds)}
+      ${p.resultScore?kpi("賽果",p.resultScore):""}
+    </div>
+    <div class="tags"><span class="tag green">${p.module==="main_single"?"主推單場":p.module==="parlay_combo"?"串關配置":"會員資料"}</span><span class="tag">${esc(p.sport||"-")}</span><span class="tag">${esc(marketKind(p))}</span></div>
+    ${p.analysis?`<details class="details"><summary>查看賽前分析</summary><div>${esc(p.analysis)}</div></details>`:""}
+    ${p.review?`<details class="details"><summary>${isLoss(p)?"查看失利覆盤":"查看賽後紀錄"}</summary><div>${esc(p.review)}</div></details>`:""}
+    ${admin?`<div class="actions" style="padding:12px 0 0"><button class="btn primary" onclick="settle('${esc(p.id)}','過關')">過關＋覆盤</button><button class="btn danger" onclick="settle('${esc(p.id)}','未過')">未過＋覆盤</button><button class="btn ghost" onclick="editRow('${esc(p.id)}')">載入修改</button><button class="btn warn" onclick="hideRow('${esc(p.id)}')">隱藏</button><button class="btn danger" onclick="deleteRow('${esc(p.id)}')">刪除</button></div>`:""}
+  </article>`;
+}
+function groupName(p){ if(p.parlayGroup) return p.parlayGroup; const e=String(p.eventNo); if(["109","130","128"].includes(e)) return "5/2 A｜3關串關｜總賠率 4.46"; if(["110","116","125"].includes(e)) return "5/2 B｜3關串關｜總賠率 3.47"; return `${p.date||"未定日期"}｜串關組合`; }
+function parlayGroups(list){ const m={}; list.filter(p=>p.module==="parlay_combo").forEach(p=>(m[groupName(p)]||=[]).push(p)); return Object.entries(m).map(([name,items])=>{items.sort((a,b)=>String(a.time).localeCompare(String(b.time))); return {name,items};}); }
+function oddsProduct(items){ const ns=items.map(p=>Number(String(p.odds).replace(/[^\d.]/g,""))).filter(Boolean); return ns.length?ns.reduce((a,b)=>a*b,1).toFixed(2):"-"; }
+function parlayCard(g,admin=false){
+  const s=statData(g.items), cls=s.l?"loss":s.pend?"pending":"win";
+  return `<section class="parlay"><h3>${esc(g.name)}</h3><p class="muted">這一組以串關方式呈現，會員可直接看出哪幾關串在一起。</p>
+  <div class="tags"><span class="tag green">${g.items.length} 關串關</span><span class="tag">估算總賠率 ${oddsProduct(g.items)}</span><span class="status ${cls}">${s.l?`${s.w}/${g.items.length} 過｜整組未過`:s.pend?`${s.pend} 關未開賽`:`${s.w}/${g.items.length} 過｜整組過關`}</span></div>
+  ${g.items.map((p,i)=>`<div class="leg"><div class="leg-no">第 ${i+1} 關</div><div><b>${esc(p.eventNo)}｜${esc(p.pick)}</b><br><span class="muted">開賽：${esc(fullTime(p))}｜${esc(matchName(p))}｜${esc(p.market)}</span></div><div><span class="status ${statusClass(p)}">${esc(p.status)}</span><br><b>${esc(p.odds)}</b></div></div>`).join("")}
+  <details class="details"><summary>查看每一關完整分析</summary><div>${g.items.map(p=>esc(`【${p.eventNo}｜${p.pick}】\n實際開賽：${fullTime(p)}\n\n${p.analysis||""}${p.review?"\n\n"+p.review:""}`)).join("\n\n---\n\n")}</div></details>
+  </section>`;
+}
+function renderList(list,admin=false){ return list.length?list.map(p=>card(p,admin)).join(""):`<div class="empty">目前沒有資料。</div>`; }
+
+function pageHome(){
+  return `<section class="hero"><div class="pill">AI預測系統｜女性化會員數據平台</div><h1 class="clean-title">每天登入系統，優雅掌握今日主推、串關與賽後紀錄。</h1><p>公開端只說明系統怎麼用，不顯示付費賽事內容。會員登入後，系統會依台灣時間顯示今日或下一個已發布賽事日。</p><button class="btn primary" onclick="toggleMember()">會員登入</button></section>
+  <div class="flow-grid">
+    <div class="flow-step"><b>1</b><h3>先看總覽</h3><p class="muted">掌握今天會員資料、主推單場與串關組合。</p></div>
+    <div class="flow-step"><b>2</b><h3>再看方向</h3><p class="muted">每場包含賽事編號、開賽時間、盤口、方向與參考賠率。</p></div>
+    <div class="flow-step"><b>3</b><h3>賽後追蹤</h3><p class="muted">過關留下紀錄，未過補失利覆盤，方便長期檢查。</p></div>
+  </div>`;
+}
+function memberHome(){
+  const list=memberRows();
+  const {info, day}=memberDayRows(list);
+  const hero=memberDateHero(info, "會員賽事資料");
+  const statusText = info.mode==="today" ? "今日資料已開通" : info.mode==="future" ? "今日尚無賽事，顯示下一個已發布賽事日" : "今日資料尚未發布";
+  return `${hero}${loadError?`<div class="error">${esc(loadError)}</div>`:""}<div class="preview-note"><b>會員使用順序：</b>先看「會員資料總覽」→ 想看重點看「主推單場」→ 想看倍數組合看「串關配置」→ 賽後回來看「戰績儀表板 / 失利覆盤」。</div><div class="dashboard">
+    <div class="metric"><b>${displayDate(today())}</b><span>台灣今日日期</span></div>
+    <div class="metric"><b>${info.date?displayDate(info.date):"-"}</b><span>目前顯示賽事日</span></div>
+    <div class="metric"><b>${day.length}</b><span>本頁賽事數</span></div>
+    <div class="metric"><b>${statusText}</b><span>資料狀態</span></div>
+  </div>
+  <div class="flow-grid">
+    <div class="flow-step" onclick="go('member_today')"><b>1</b><h3>會員資料總覽</h3><p class="muted">當天全部重點資料集中在這裡。</p></div>
+    <div class="flow-step" onclick="go('member_single')"><b>2</b><h3>主推單場</h3><p class="muted">只想看核心方向，就看這頁。</p></div>
+    <div class="flow-step" onclick="go('member_parlay')"><b>3</b><h3>串關配置</h3><p class="muted">系統會整理哪幾場是一組。</p></div>
+    <div class="flow-step" onclick="go('record')"><b>4</b><h3>戰績追蹤</h3><p class="muted">戰績與覆盤保留歷史紀錄。</p></div>
+  </div>`;
+}
+function memberPage(kind){
+  const list=memberRows();
+  const {info, day}=memberDayRows(list);
+  const heroTitle = kind==="member_single" ? "｜主推單場" : kind==="member_parlay" ? "｜串關配置" : "｜會員資料總覽";
+  const hero=memberDateHero(info, heroTitle);
+  if(!day.length) return `${hero}<div class="empty">目前沒有符合台灣日期的會員資料。</div>`;
+  if(kind==="member_single") return `${hero}${renderList(day.filter(p=>p.module==="main_single"))}`;
+  if(kind==="member_parlay") return `${hero}${parlayGroups(day).map(g=>parlayCard(g)).join("")||`<div class="empty">目前沒有串關資料。</div>`}`;
+  return `${hero}${dashboard(displayDate(info.date)+" 會員資料總覽",day)}<section class="panel"><div class="panel-head"><h2>主推單場</h2></div><div class="pad">${renderList(day.filter(p=>p.module==="main_single"))}</div></section><section class="panel"><div class="panel-head"><h2>串關配置</h2></div><div class="pad">${parlayGroups(day).map(g=>parlayCard(g)).join("")||`<div class="empty">目前沒有串關資料。</div>`}</div></section>`;
+}
+function recordPage(reviewOnly=false){
+  const list=memberRows().filter(isSettled).sort((a,b)=>String(b.date+b.time).localeCompare(String(a.date+a.time)));
+  if(reviewOnly) return `${dashboard("失利覆盤",list.filter(isLoss))}<section class="panel"><div class="panel-head"><h2>失利場次覆盤</h2></div><div class="pad">${renderList(list.filter(isLoss))}</div></section>`;
+  return dashboard("近 30 場戰績儀表板", list.slice(0,30));
+}
+function publicRecord(){
+  return `<section class="hero"><div class="pill">AI預測系統｜公開摘要</div><h2>公開端僅展示概要，不公開付費賽事細節。</h2><p>完整主推、串關配置、賽前分析與覆盤須登入會員後查看。</p></section><div class="dashboard"><div class="metric"><b>會員限定</b><span>完整資料</span></div><div class="metric"><b>透明保留</b><span>過關 / 未過</span></div><div class="metric"><b>覆盤制度</b><span>失利補檢討</span></div></div>`;
+}
+function guidePage(){
+  return `<section class="hero">
+    <div class="pill">AI預測系統｜使用指南</div>
+    <h2>這套系統不是單純報牌，而是每日賽事資料流程。</h2>
+    <p>免費端可以先理解系統邏輯；會員端才會看到完整賽事、方向、盤口、賽前分析與賽後紀錄。</p>
+  </section>
+  <section class="panel">
+    <div class="panel-head"><div><h2>1. 系統定位</h2><p class="muted">把每天賽事整理成可追蹤、可覆盤、可統計的會員資料。</p></div></div>
+    <div class="pad grid">
+      <div class="card"><h3>不是只有一張牌</h3><p class="muted">會員看到賽事編號、開賽時間、盤口、方向、賠率、賽前分析與賽後紀錄。</p></div>
+      <div class="card"><h3>不是保證結果</h3><p class="muted">球賽有波動，系統價值在於記錄判斷流程與後續覆盤。</p></div>
+      <div class="card"><h3>會員分層</h3><p class="muted">免費端只看系統說明；完整主推、串關與覆盤需要登入會員。</p></div>
+    </div>
+  </section>
+  <section class="panel">
+    <div class="panel-head"><div><h2>2. 每天登入後怎麼看？</h2><p class="muted">新會員照順序看即可。</p></div></div>
+    <div class="pad grid">
+      <div class="card"><h3>會員資料總覽</h3><p class="muted">先看當天所有重點資料，確認今天有哪些主推與串關。</p></div>
+      <div class="card"><h3>主推單場</h3><p class="muted">只想看核心方向，就看主推單場。</p></div>
+      <div class="card"><h3>串關配置</h3><p class="muted">想看 3–5 倍組合，就看串關配置；系統會整理哪幾場是一組。</p></div>
+      <div class="card"><h3>戰績與覆盤</h3><p class="muted">賽後回來看結果；過關會記錄，未過會補失利覆盤。</p></div>
+    </div>
+  </section>
+  <section class="panel">
+    <div class="panel-head"><div><h2>3. 每場資料怎麼核對？</h2><p class="muted">下注前請自行核對官方盤口與賠率。</p></div></div>
+    <div class="pad step-list">
+      <div class="step"><b>賽事編號</b><br>優先核對台灣運彩賽事編號，避免隊伍翻譯不同。</div>
+      <div class="step"><b>實際開賽時間</b><br>資料可能前一天整理，但請以實際開賽時間追蹤。</div>
+      <div class="step"><b>盤口</b><br>例如不讓分、讓分、大小分、兩隊進球；會員端會直接顯示後台填入盤口。</div>
+      <div class="step"><b>推薦方向與參考賠率</b><br>賠率會變動，下注前請重新核對。</div>
+    </div>
+  </section>
+  <section class="panel">
+    <div class="panel-head"><div><h2>4. 適合誰？</h2></div></div>
+    <div class="pad grid">
+      <div class="card"><h3>適合</h3><p class="muted">想節省找資料時間、想看主推與串關整理、願意看賽後覆盤的人。</p></div>
+      <div class="card"><h3>不適合</h3><p class="muted">只想一場必過、不能接受波動、容易追單加碼的人。</p></div>
+    </div>
+  </section>`;
+}
+
+function bettingPage(){
+  return `<section class="hero"><div class="pill">AI預測系統｜台灣運彩投注教學</div><h2>把會員資料正確對應到官方投注流程。</h2><p>本頁不是鼓勵加碼，而是讓會員知道如何核對賽事編號、盤口、賠率與投注方式。實際投注請以台灣運彩官方頁面與實體店面資訊為準。</p></section>
+  <section class="panel"><div class="panel-head"><div><h2>投注前核對順序</h2><p class="muted">每次下注前都照這個順序檢查，避免押錯場、押錯盤或時間已過。</p></div></div>
+    <div class="pad step-list">
+      <div class="step"><b>步驟 1｜核對實際開賽時間</b><br>會員資料可能前一日發布，請以「實際開賽時間」為準。</div>
+      <div class="step"><b>步驟 2｜核對賽事編號與聯盟</b><br>在台灣運彩官方頁面或實體店面賽事表找到相同賽事編號、聯盟與對戰隊伍。</div>
+      <div class="step"><b>步驟 3｜核對玩法與盤口</b><br>確認是不讓分、讓分、大小分、正確比分或串關；盤口數字必須與會員資料一致。</div>
+      <div class="step"><b>步驟 4｜核對參考賠率</b><br>賠率會即時變動，若變動過大，請重新評估是否仍符合原分析條件。</div>
+      <div class="step"><b>步驟 5｜控制單位與風險</b><br>不因連勝加碼，也不因連敗追單。單場與串關請分開管理資金。</div>
+    </div>
+  </section>
+  <section class="panel"><div class="panel-head"><div><h2>官方線上投注流程</h2><p class="muted">適合已完成台灣運彩線上通路會員申請、入金與帳戶設定的會員。</p></div></div>
+    <div class="pad link-grid">
+      <a class="link-card" target="_blank" rel="noopener" href="https://www.sportslottery.com.tw/sportsbook/"><h3>台灣運彩線上投注</h3><p>進入官方線上投注平台，核對賽事、盤口、賠率與投注代碼。</p></a>
+      <a class="link-card" target="_blank" rel="noopener" href="https://activation.sportslottery.com.tw/online-membership-activation/?code="><h3>線上會員申請 / 教學</h3><p>查看官方線上會員啟用、投注教學、賽事表與賽果查詢入口。</p></a>
+    </div>
+  </section>
+  <section class="panel"><div class="panel-head"><div><h2>實體店面投注流程</h2><p class="muted">適合習慣到投注站列印投注單或請店員協助核對的人。</p></div></div>
+    <div class="pad step-list">
+      <div class="step"><b>步驟 1｜帶著會員資料到店面</b><br>先準備好賽事編號、玩法、盤口、推薦方向與投注金額。</div>
+      <div class="step"><b>步驟 2｜現場再次核對盤口</b><br>店面盤口與賠率可能與會員資料發布時不同，請以現場當下為準。</div>
+      <div class="step"><b>步驟 3｜完成投注後保留憑證</b><br>下注後保存注單，賽後用於核對賽果與覆盤。</div>
+    </div>
+  </section>`;
+}
+function scoresPage(){
+  return `<section class="hero"><div class="pill">AI預測系統｜比分 / 直播入口</div><h2>追蹤比分可以用官方與授權來源，不把第三方連結當成保證。</h2><p>比分與直播資訊會依授權、地區與賽事而不同。平台提供入口協助核對，不保證第三方頁面即時性或可觀看性。</p></section>
+  <section class="panel"><div class="panel-head"><div><h2>常用比分入口</h2><p class="muted">下注前核對開賽，賽中追蹤比分，賽後核對賽果。</p></div></div>
+    <div class="pad link-grid">
+      <a class="link-card" target="_blank" rel="noopener" href="https://www.sportslottery.com.tw/sportsbook/"><h3>台灣運彩即時比分 / 賽果</h3><p>官方線上平台含即時比分、賽果查詢與投注代碼等入口。</p></a>
+      <a class="link-card" target="_blank" rel="noopener" href="https://www.mlb.com/scores"><h3>MLB 官方比分</h3><p>美國職棒官方比分、賽程與賽事資訊。</p></a>
+      <a class="link-card" target="_blank" rel="noopener" href="https://www.mlb.com/schedule/gameday"><h3>MLB Gameday</h3><p>MLB 官方即時比賽追蹤入口。</p></a>
+      <a class="link-card" target="_blank" rel="noopener" href="https://www.nba.com/games"><h3>NBA 官方賽程 / 比分</h3><p>NBA 官方賽事、比分、數據與賽程入口。</p></a>
+      <a class="link-card" target="_blank" rel="noopener" href="https://www.espn.com/soccer/scoreboard"><h3>足球比分入口</h3><p>足球賽程、即時比分與主要聯賽賽果查詢。</p></a>
+    </div>
+  </section>
+  <section class="panel"><div class="panel-head"><div><h2>直播提醒</h2><p class="muted">直播請使用合法授權服務，避免來路不明連結。</p></div></div>
+    <div class="pad step-list">
+      <div class="step"><b>台灣運彩場中資訊</b><br>可用於查看場中投注、即時比分與賽事狀態。</div>
+      <div class="step"><b>聯盟官方平台</b><br>MLB、NBA 等官方平台可提供比分、賽程、數據與部分影音內容。</div>
+      <div class="step"><b>授權轉播平台</b><br>實際直播能否觀看，取決於地區授權與平台訂閱條件。</div>
+    </div>
+  </section>`;
+}
+function contactPage(){
+  return `<section class="hero">
+    <div class="pill">AI預測系統｜客服中心</div>
+    <h2>客服與會員開通</h2>
+    <p>如需開通會員、續費、查詢登入問題，請優先使用下方官方聯絡入口。</p>
+  </section>
+  <section class="panel">
+    <div class="panel-head"><div><h2>官方聯絡方式</h2><p class="muted">請確認連結正確，避免私訊到非官方帳號。</p></div></div>
+    <div class="pad grid">
+      <div class="card"><h3>Telegram 客服</h3><p class="muted">會員開通、續費、系統問題請由 TG 聯繫。</p><p><a href="https://t.me/+0XhzHE8NKI9hNGM1" target="_blank" rel="noopener">前往 Telegram</a></p></div>
+      <div class="card"><h3>Instagram</h3><p class="muted">可透過 IG 私訊詢問會員方案與系統使用方式。</p><p><a href="https://www.instagram.com/155.feel?igsh=MXZkMmRzamp4aHlqdw%3D%3D&utm_source=qr" target="_blank" rel="noopener">前往 Instagram</a></p></div>
+      <div class="card"><h3>開通提醒</h3><p class="muted">完成付款後，請提供會員啟用碼或備註資訊，客服確認後協助開通權限。</p></div>
+    </div>
+  </section>`;
+}
+function adminHome(){
+  return `<section class="hero"><div class="pill">AI預測系統｜後台端</div><h2>後台只保留正式營運需要的功能。</h2><p>新增賽事、賽後結算、會員管理、批量匯入與系統狀態。後台顯示邏輯與會員端一致，避免表格擠壓與長文字直排。</p></section><div class="preview-note"><b>今日操作建議：</b>先新增 / 修改賽事，賽後再到「賽後結算」更新過關或未過。會員權限相關操作請到「會員管理」。</div>${loadError?`<div class="error">${esc(loadError)}</div>`:""}<div class="grid"><div class="card" onclick="go('admin_builder')"><h3>新增 / 修改賽事</h3><p class="muted">建立主推單場或串關配置。</p></div><div class="card" onclick="go('admin_settle')"><h3>賽後結算</h3><p class="muted">快速標記過關 / 未過並補覆盤。</p></div><div class="card" onclick="go('admin_members')"><h3>會員管理</h3><p class="muted">續費、停用、改永久、修改備註。</p></div><div class="card" onclick="go('admin_import')"><h3>批量匯入</h3><p class="muted">一次匯入多場賽事或戰績。</p></div></div>`;
+}
+function adminBuilder(){
+  return `<section class="panel"><div class="panel-head"><div><h2>新增 / 修改賽事</h2><p class="muted">日期請填「實際開賽日期」。今天分析明天賽事，日期就填明天。</p></div></div><div class="form" id="builderForm">
+    <label>資料ID<input id="b_id" placeholder="修改時自動帶入，可留空"></label>
+    <label>賽事編號<input id="b_event_no" placeholder="例：319"></label>
+    <label>後台建立日期<input id="b_publish_date" type="date" value="${today()}"></label>
+    <label>實際開賽日期<input id="b_date" type="date" value="${tomorrow()}"></label>
+    <label>實際開賽時間<input id="b_time" placeholder="09:30"></label>
+    <label>類型<select id="b_module"><option value="main_single">主推單場</option><option value="parlay_combo">串關配置</option></select></label>
+    <label>串關組合名稱<input id="b_parlay" placeholder="例：5/4 A｜3關串關｜總賠率 3.85"></label>
+    <label>球種<select id="b_sport"><option>棒球</option><option>籃球</option><option>足球</option><option>其他</option></select></label>
+    <label>聯盟<input id="b_league" placeholder="美國職棒"></label>
+    <label>客隊<input id="b_away" placeholder="客隊"></label>
+    <label>主隊<input id="b_home" placeholder="主隊"></label>
+    <label>盤口<input id="b_market" placeholder="[總分]大小 6.5 / 不讓分"></label>
+    <label>推薦方向<input id="b_pick" placeholder="大 6.5 / 球隊名稱"></label>
+    <label>參考賠率<input id="b_odds" placeholder="1.85"></label>
+    <label>狀態<select id="b_status"><option>未開賽</option><option>過關</option><option>未過</option></select></label>
+    <label>賽果<input id="b_result" placeholder="例：A隊 5：6 B隊"></label>
+    <label>賽前分析<textarea id="b_analysis" placeholder="盤口位置、賽前劇本、臨場注意事項、最終結論"></textarea></label>
+    <label>賽後覆盤<textarea id="b_review" placeholder="過關可簡短，未過需補完整原因與修正方向"></textarea></label>
+  </div><div class="actions"><button class="btn primary" onclick="savePrediction()">儲存到會員端</button><button class="btn ghost" onclick="clearBuilder()">清空</button></div></section>`;
+}
+function getVal(id){ return $(id)?.value || ""; }
+async function savePrediction(){
+  if(!adminPassword) return alert("請先登入後台");
+  const payload={id:getVal("b_id"),event_no:getVal("b_event_no"),publish_date:getVal("b_publish_date"),match_date:getVal("b_date"),match_time:getVal("b_time"),module:getVal("b_module"),parlay_group:getVal("b_parlay"),sport:getVal("b_sport"),league:getVal("b_league"),away_team:getVal("b_away"),home_team:getVal("b_home"),market:getVal("b_market"),pick:getVal("b_pick"),odds:getVal("b_odds"),status:getVal("b_status"),visibility:"paid",result_score:getVal("b_result"),analysis:getVal("b_analysis"),review:getVal("b_review"),risk_level:"低"};
+  try{ await rpcAny([{name:"admin_save_prediction_v55",body:{p_admin_password:adminPassword,p_data:payload}},{name:"admin_save_prediction_v54",body:{p_admin_password:adminPassword,p_data:payload}}]); alert("已儲存到會員端"); await loadData(); go("admin_home"); }catch(e){ alert("儲存失敗："+e.message); }
+}
+function clearBuilder(){ document.querySelectorAll("#builderForm input,#builderForm textarea").forEach(i=>i.value=""); $("b_publish_date").value=today(); $("b_date").value=tomorrow(); }
+function editRow(id){ const p=rows.find(x=>x.id===id); if(!p) return; page="admin_builder"; render(); setTimeout(()=>{ $("b_id").value=p.id||""; $("b_event_no").value=p.eventNo; $("b_publish_date").value=p.publishDate||today(); $("b_date").value=p.date; $("b_time").value=p.time; $("b_module").value=p.module; $("b_parlay").value=p.parlayGroup; $("b_sport").value=p.sport; $("b_league").value=p.league; $("b_away").value=p.away; $("b_home").value=p.home; $("b_market").value=p.market; $("b_pick").value=p.pick; $("b_odds").value=p.odds; $("b_status").value=p.status; $("b_result").value=p.resultScore; $("b_analysis").value=p.analysis; $("b_review").value=p.review; },50); }
+async function settle(id,status){
+  const p=rows.find(x=>x.id===id);
+  if(!p) return;
+  const review=prompt(status==="未過"?"請輸入失利覆盤":"請輸入賽後紀錄", p.review||"");
+  if(review===null) return;
+  const payload={...p,id:p.id,event_no:p.eventNo,match_date:p.date,match_time:p.time,publish_date:p.publishDate,away_team:p.away,home_team:p.home,parlay_group:p.parlayGroup,result_score:p.resultScore,status,review,visibility:p.visibility,risk_level:"低"};
+  try{
+    await rpcAny([
+      {name:"admin_save_prediction_v55",body:{p_admin_password:adminPassword,p_data:payload}},
+      {name:"admin_save_prediction_v54",body:{p_admin_password:adminPassword,p_data:payload}}
+    ]);
+    alert("已更新結算");
+    await loadData();
+    render();
+  }catch(e){
+    alert("更新失敗："+e.message);
+  }
+}
+async function hideRow(id){
+  const p=rows.find(x=>x.id===id);
+  if(!p) return alert("找不到資料");
+  if(!confirm(`確認隱藏這筆資料？\n\n${p.eventNo||""} ${p.pick||""}\n隱藏後會員端不會看到，但後台資料仍保留。`)) return;
+  const payload={...p,id:p.id,event_no:p.eventNo,match_date:p.date,match_time:p.time,publish_date:p.publishDate,away_team:p.away,home_team:p.home,parlay_group:p.parlayGroup,result_score:p.resultScore,visibility:"hidden",risk_level:"低"};
+  try{
+    await rpcAny([
+      {name:"admin_save_prediction_v55",body:{p_admin_password:adminPassword,p_data:payload}},
+      {name:"admin_save_prediction_v54",body:{p_admin_password:adminPassword,p_data:payload}}
+    ]);
+    alert("已隱藏，會員端不會顯示。");
+    await loadData(); render();
+  }catch(e){ alert("隱藏失敗："+e.message); }
+}
+async function deleteRow(id){
+  const p=rows.find(x=>x.id===id);
+  if(!p) return alert("找不到資料");
+  if(!confirm(`⚠️ 確認刪除這筆賽事？\n\n編號：${p.eventNo||"無"}\n方向：${p.pick||""}\n\n刪除後無法從後台恢復。`)) return;
+  try{
+    await rpcAny([
+      {name:"admin_delete_prediction_v59",body:{p_admin_password:adminPassword,p_prediction_id:id}},
+      {name:"admin_delete_prediction_v58",body:{p_admin_password:adminPassword,p_prediction_id:id}}
+    ]);
+    alert("已刪除。");
+    await loadData(); render();
+  }catch(e){ alert("刪除失敗："+e.message+"\n請確認已執行 supabase_v59_delete_manage.sql。"); }
+}
+async function clearDateRows(){
+  const d = document.getElementById("clear_date")?.value;
+  if(!d) return alert("請先選擇要清除的日期");
+  if(!confirm(`⚠️ 確認刪除 ${d} 的所有賽事資料？\n這會把該日期全部主推、串關與戰績資料刪除。`)) return;
+  try{
+    const n = await rpcAny([{name:"admin_delete_predictions_by_date_v59",body:{p_admin_password:adminPassword,p_match_date:d}}]);
+    alert(`已刪除 ${n} 筆資料。`);
+    await loadData(); render();
+  }catch(e){ alert("清除日期失敗："+e.message+"\n請確認已執行 supabase_v59_delete_manage.sql。"); }
+}
+async function clearGroupRows(){
+  const g = document.getElementById("clear_group")?.value.trim();
+  if(!g) return alert("請先輸入串關組合名稱");
+  if(!confirm(`⚠️ 確認刪除串關組合：${g}？`)) return;
+  try{
+    const n = await rpcAny([{name:"admin_delete_predictions_by_group_v59",body:{p_admin_password:adminPassword,p_parlay_group:g}}]);
+    alert(`已刪除 ${n} 筆資料。`);
+    await loadData(); render();
+  }catch(e){ alert("清除串關組失敗："+e.message+"\n請確認已執行 supabase_v59_delete_manage.sql。"); }
+}
+
+function adminSettle(){ const list=visibleRows().filter(p=>["未開賽","待開賽","過關","未過"].includes(p.status)); return `<section class="hero"><h2>賽後結算中心</h2><p>比賽結束後在這裡標記過關或未過，未過必須補覆盤。</p></section><div class="pad">${renderList(list,true)}</div>`; }
+function adminMembers(){
+  return `<section class="panel"><div class="panel-head"><div><h2>新增會員</h2><p class="muted">建立 10 天、30 天或其他天數會員。會員列表可續費或改永久。</p></div></div><div class="form"><label>啟用碼<input id="c_code" placeholder="PAP-001"></label><label>會員密碼<input id="c_pass" placeholder="自訂或隨機"></label><label>有效天數<input id="c_days" type="number" value="10"></label><label>備註<input id="c_note" placeholder="IG / TG / 方案 / 收款狀態"></label></div><div class="actions"><button class="btn primary" onclick="createCode()">建立 / 更新會員</button></div></section>${memberList()}`;
+}
+function codeDays(c){ if(!c.expires_at) return 0; const d=new Date(c.expires_at); if(d.getFullYear()>=2099) return 99999; return Math.ceil((d-new Date())/86400000); }
+function permanent(c){ return String(c.code).toUpperCase()==="VIP001" || String(c.note||"").includes("永久") || new Date(c.expires_at).getFullYear()>=2099; }
+function memberList(){
+  return `<section class="panel"><div class="panel-head"><div><h2>會員權限管理表</h2><p class="muted">搜尋、續 10 天、續 30 天、改永久、改備註、停用。</p></div><div class="muted">共 ${activationCodes.length} 組</div></div><div class="searchbar"><input id="memberSearch" placeholder="搜尋啟用碼 / IG / TG / 備註" oninput="render()"></div><div class="member-grid">${activationCodes.filter(c=>{ const q=($("memberSearch")?.value||"").toLowerCase(); return !q || [c.code,c.note,c.id].join(" ").toLowerCase().includes(q); }).map(c=>`<div class="member-card"><div class="card-top"><div><h3>${esc(c.code)}</h3><p class="meta">${esc(c.id||"")}</p></div><span class="status ${!c.is_active?'loss':permanent(c)||codeDays(c)>2?'win':'pending'}">${!c.is_active?'已停用':permanent(c)?'永久會員':'剩 '+codeDays(c)+' 天'}</span></div><div class="kpis">${kpi("到期時間",permanent(c)?"永久會員":new Date(c.expires_at).toLocaleString("zh-TW"))}${kpi("備註",c.note||"-")}</div><div class="actions" style="padding:0"><button class="btn primary" onclick="extendCode('${esc(c.code)}',10)">續 10 天</button><button class="btn primary" onclick="extendCode('${esc(c.code)}',30)">續 30 天</button><button class="btn warn" onclick="setPermanent('${esc(c.code)}')">改永久</button><button class="btn ghost" onclick="editNote('${esc(c.code)}','${esc(String(c.note||"").replace(/'/g,"\\'"))}')">改備註</button><button class="btn danger" onclick="deactivateCode('${esc(c.code)}')">停用</button></div></div>`).join("") || `<div class="empty">目前沒有會員資料，或 SQL 尚未提供會員列表函式。</div>`}</div></section>`;
+}
+async function createCode(){ try{ await rpcAny([{name:"admin_create_activation_code_v58",body:{p_admin_password:adminPassword,p_code:getVal("c_code"),p_member_password:getVal("c_pass"),p_days:Number(getVal("c_days")||10),p_note:getVal("c_note")}},{name:"admin_create_activation_code_v55",body:{p_admin_password:adminPassword,p_code:getVal("c_code"),p_member_password:getVal("c_pass"),p_days:Number(getVal("c_days")||10),p_note:getVal("c_note")}},{name:"admin_create_activation_code",body:{p_admin_password:adminPassword,p_code:getVal("c_code"),p_member_password:getVal("c_pass"),p_days:Number(getVal("c_days")||10),p_note:getVal("c_note")}}]); alert("會員已建立 / 更新"); await loadData(); render(); }catch(e){ alert("建立失敗："+e.message); } }
+async function extendCode(code,days){ try{ await rpcAny([{name:"admin_extend_member_code_v55",body:{p_admin_password:adminPassword,p_code:code,p_days:days}},{name:"admin_extend_member_code_v54",body:{p_admin_password:adminPassword,p_code:code,p_days:days}}]); alert("已續費 "+days+" 天"); await loadData(); render(); }catch(e){ alert("續費失敗："+e.message); } }
+async function setPermanent(code){ try{ await rpcAny([{name:"admin_set_member_permanent_v55",body:{p_admin_password:adminPassword,p_code:code}},{name:"admin_set_member_permanent_v54",body:{p_admin_password:adminPassword,p_code:code}}]); alert("已改永久會員"); await loadData(); render(); }catch(e){ alert("設定失敗："+e.message); } }
+async function editNote(code,current){ const note=prompt("修改會員備註",current||""); if(note===null)return; try{ await rpcAny([{name:"admin_update_member_note_v55",body:{p_admin_password:adminPassword,p_code:code,p_note:note}},{name:"admin_update_member_note_v54",body:{p_admin_password:adminPassword,p_code:code,p_note:note}}]); alert("備註已更新"); await loadData(); render(); }catch(e){ alert("修改失敗："+e.message); } }
+async function deactivateCode(code){ try{ await rpcAny([{name:"admin_deactivate_activation_code",body:{p_admin_password:adminPassword,p_code:code}}]); alert("已停用"); await loadData(); render(); }catch(e){ alert("停用失敗："+e.message); } }
+
+function adminImport(){
+  return `<section class="panel"><div class="panel-head"><div><h2>批量匯入賽事 / 戰績</h2><p class="muted">可貼上 JSON 一次匯入。你可以自己依格式貼入；若每天把賽事傳給我，我也可以幫你整理成可直接貼上的 JSON。</p></div></div><div class="form"><label>戰績 JSON<textarea id="bulkJson" placeholder="貼上 JSON 陣列"></textarea></label></div><div class="actions"><button class="btn primary" onclick="importOfficial()">V74 Final 一鍵重整 5/2 已結算資料</button><button class="btn ghost" onclick="$('bulkJson').value=JSON.stringify(OFFICIAL_0502,null,2)">載入 V74 Final 正式 JSON</button><button class="btn primary" onclick="bulkImport()">匯入目前 JSON</button><button class="btn ghost" onclick="systemCheck()">V74 Final 上線檢查</button></div></section>
+  <section class="panel"><div class="panel-head"><div><h2>資料刪除管理</h2><p class="muted">用來清除匯入錯誤、重複日期或不要的串關組。單筆刪除也可在賽事卡片按「刪除」。</p></div></div>
+    <div class="pad">
+      <div class="delete-tools">
+        <h3>清除指定日期資料</h3>
+        <p class="muted">例如今天匯入錯日期，可以一次刪除該日期所有資料。</p>
+        <div class="row"><input id="clear_date" type="date"><button class="btn danger" onclick="clearDateRows()">刪除該日期全部賽事</button></div>
+      </div>
+      <div class="delete-tools">
+        <h3>清除指定串關組</h3>
+        <p class="muted">請輸入完整串關組合名稱，例如：5/2 A｜3關串關｜總賠率 4.46</p>
+        <div class="row"><input id="clear_group" placeholder="串關組合名稱"><button class="btn danger" onclick="clearGroupRows()">刪除該串關組</button></div>
+      </div>
+    </div>
+  </section>`;
+}
+async function importOfficial(){ if(!confirm("確認清理舊 5/2 資料並匯入正式資料？")) return; try{ await rpcAny([{name:"admin_cleanup_official_may02_v55",body:{p_admin_password:adminPassword}},{name:"admin_cleanup_official_may02_v54",body:{p_admin_password:adminPassword}}]); }catch(e){} $("bulkJson").value=JSON.stringify(OFFICIAL_0502,null,2); await bulkImport(); }
+async function bulkImport(){ let data; try{data=JSON.parse($("bulkJson").value)}catch(e){return alert("JSON 格式錯誤："+e.message)}; let ok=0,fail=0,errs=[]; for(const r of data){ try{ await rpcAny([{name:"admin_save_prediction_v55",body:{p_admin_password:adminPassword,p_data:r}},{name:"admin_save_prediction_v54",body:{p_admin_password:adminPassword,p_data:r}}]); ok++; }catch(e){fail++; errs.push((r.event_no||r.pick||"?")+"："+e.message)} } alert(`匯入完成：成功 ${ok}，失敗 ${fail}`+(errs.length?"\n"+errs.join("\n"):"")); await loadData(); render(); }
+async function systemCheck(){ try{ const r=await rpcAny([{name:"admin_system_check_v55",body:{p_admin_password:adminPassword}},{name:"admin_system_check_v54",body:{p_admin_password:adminPassword}}]); alert("上線檢查：\n"+JSON.stringify(Array.isArray(r)?r[0]:r,null,2)); }catch(e){ alert("檢查失敗："+e.message); } }
+function adminStatus(){ return `<section class="panel"><div class="panel-head"><h2>系統狀態</h2></div><div class="form"><label>今日資料狀態<select id="s_status"><option>ready</option><option>整理中</option><option>已更新</option></select></label><label>維護模式<select id="s_maint"><option value="false">關閉</option><option value="true">開啟</option></select></label><label>維護訊息<textarea id="s_msg">系統資料維護中，請稍後回來查看。</textarea></label></div><div class="actions"><button class="btn primary" onclick="alert('狀態設定保留為後續接資料庫，現在不再讓前台卡在資料整理中。')">儲存系統狀態</button></div></section>`; }
+
+async function toggleAdmin(){ if(isAdmin){ isAdmin=false; adminPassword=""; localStorage.removeItem("pap_admin_password"); page="home"; await loadData(); render(); return; } const p=prompt("請輸入後台密碼"); if(!p)return; adminPassword=p; isAdmin=true; localStorage.setItem("pap_admin_password",p); page="admin_home"; await loadData(); render(); }
+function toggleMember(){ if(isMember){ isMember=false; memberCode=""; memberPass=""; memberInfo=null; localStorage.removeItem("pap_member_code"); localStorage.removeItem("pap_member_pass"); page="home"; loadData().then(render); } else $("memberModal").classList.add("open"); }
+function closeModal(id){ $(id).classList.remove("open"); }
+async function memberLogin(){ memberCode=$("loginCode").value.trim(); memberPass=$("loginPass").value.trim(); localStorage.setItem("pap_member_code",memberCode); localStorage.setItem("pap_member_pass",memberPass); closeModal("memberModal"); await loadData(); page=isMember?"member_home":"home"; render(); if(!isMember) alert(loadError || "會員登入失敗"); }
+
+function render(){
+  updateUser(); updateNav();
+  let out="";
+  if(isAdmin){
+    if(page==="admin_builder") out=adminBuilder();
+    else if(page==="admin_settle") out=adminSettle();
+    else if(page==="admin_members") out=adminMembers();
+    else if(page==="admin_import") out=adminImport();
+    else if(page==="admin_status") out=adminStatus();
+    else if(page==="member_today"||page==="member_single"||page==="member_parlay") out=memberPage(page);
+    else if(page==="record") out=recordPage(false);
+    else if(page==="review") out=recordPage(true);
+    else if(page==="guide") out=guidePage();
+    else if(page==="betting") out=bettingPage();
+    else if(page==="scores") out=scoresPage();
+    else if(page==="contact") out=contactPage();
+    else out=adminHome();
+  } else if(isMember){
+    if(page==="member_today"||page==="member_single"||page==="member_parlay") out=memberPage(page);
+    else if(page==="record") out=recordPage(false);
+    else if(page==="review") out=recordPage(true);
+    else if(page==="guide") out=guidePage();
+    else if(page==="betting") out=bettingPage();
+    else if(page==="scores") out=scoresPage();
+    else if(page==="contact") out=contactPage();
+    else out=memberHome();
+  } else {
+    if(page==="public_record") out=publicRecord();
+    else if(page==="guide") out=guidePage();
+    else if(page==="betting") out=bettingPage();
+    else if(page==="scores") out=scoresPage();
+    else if(page==="contact") out=contactPage();
+    else out=pageHome();
+  }
+  if(loadError && (isMember||isAdmin)) out = `<div class="error">${esc(loadError)}</div>` + out;
+  $("root").innerHTML=out;
+}
+(async function init(){
+  if(location.hash==="#admin") $("adminBtn").style.display="inline-flex";
+  await loadData();
+  if(isMember) page="member_home";
+  render();
+})();
+</script>
+</body>
+</html>
