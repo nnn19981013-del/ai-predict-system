@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>AI預測系統｜獨立粉白女性版 V4</title>
+<title>AI預測系統｜獨立粉白女性版 V5</title>
 <style>
 :root {
   --bg:#05070d; --panel:#12141c; --panel2:#0d1d20; --line:rgba(255,255,255,.10);
@@ -135,7 +135,7 @@ button,input,select,textarea{font:inherit}
 .clean-title{font-size:clamp(28px,5vw,52px);line-height:1.12}
 
 
-/* AI預測系統 獨立粉白女性版 V4：只調整視覺，不改資料與功能 */
+/* AI預測系統 獨立粉白女性版 V5：只調整視覺，不改資料與功能 */
 :root{
   --bg:#fff9fc;
   --panel:#ffffff;
@@ -205,7 +205,7 @@ table, th, td{
 }
 
 
-/* AI預測系統｜獨立粉白女性版 V4 */
+/* AI預測系統｜獨立粉白女性版 V5 */
 :root{
   --bg:#fff8fc;
   --panel:#ffffff;
@@ -418,6 +418,173 @@ a,.accent{
 }
 .mobile-menu{
   background:linear-gradient(135deg,#ff84b8,#ffc1dc) !important;
+  color:#fff !important;
+}
+
+
+/* V5 最終修正：一次修掉綠字、深色卡片、側欄低對比 */
+:root{
+  --bg:#fff8fc !important;
+  --panel:#ffffff !important;
+  --panel2:#fff4f9 !important;
+  --line:rgba(214,92,142,.24) !important;
+  --text:#4b2f3f !important;
+  --muted:#7d5d70 !important;
+  --green:#d85c8e !important;
+  --blue:#f3a2c8 !important;
+  --yellow:#ffe1ec !important;
+  --red:#c84f7e !important;
+  --chip:#fff0f6 !important;
+}
+html,body{
+  color:#4b2f3f !important;
+  background:
+    radial-gradient(circle at 14% 8%,rgba(255,180,215,.35),transparent 34%),
+    radial-gradient(circle at 88% 18%,rgba(255,222,237,.42),transparent 34%),
+    linear-gradient(135deg,#ffffff 0%,#fff7fb 54%,#ffeef6 100%) !important;
+}
+.app,.sidebar,aside,nav{
+  background:linear-gradient(180deg,#ffffff 0%,#fff6fa 100%) !important;
+  color:#4b2f3f !important;
+}
+.sidebar{
+  border-right:1px solid rgba(214,92,142,.22) !important;
+}
+.logo{
+  background:linear-gradient(135deg,#ff83b8,#ffc4de) !important;
+  color:#fff !important;
+}
+.brand h1,.topbar h2,.hero h1,.hero h2,.panel-head h2,.card h3,.flow-step h3,.metric b,.member-card h3{
+  color:#4b2f3f !important;
+}
+.brand p,.nav-title,.muted,.hero p,.side-note,.meta,.metric span,.card p,.flow-step p,.panel p{
+  color:#7d5d70 !important;
+}
+.topbar{
+  background:rgba(255,255,255,.96) !important;
+  border-bottom:1px solid rgba(214,92,142,.18) !important;
+}
+.nav button{
+  color:#6d4c5e !important;
+  background:transparent !important;
+}
+.nav button:hover,.nav button.active{
+  background:linear-gradient(135deg,rgba(255,131,184,.18),rgba(255,222,237,.48)) !important;
+  color:#b93f78 !important;
+}
+.nav button.locked{
+  opacity:.9 !important;
+}
+.side-note{
+  background:#ffffff !important;
+  border:1px solid rgba(255,131,184,.34) !important;
+  color:#5a3a4a !important;
+  box-shadow:0 10px 24px rgba(214,92,142,.08) !important;
+}
+.side-note b,.side-note strong{
+  color:#b93f78 !important;
+}
+.hero,.panel,.card,.metric,.member-card,.flow-step,.preview-note,.kpi{
+  background:rgba(255,255,255,.96) !important;
+  border:1px solid rgba(214,92,142,.23) !important;
+  box-shadow:0 14px 34px rgba(214,92,142,.10) !important;
+}
+.hero{
+  background:
+    radial-gradient(circle at 18% 20%,rgba(255,180,215,.25),transparent 42%),
+    linear-gradient(135deg,#fff,#fff1f7) !important;
+}
+.card{
+  background:linear-gradient(135deg,#ffffff 0%,#fff7fb 100%) !important;
+}
+/* 核心：投注教學與比分入口卡片，全部改成粉白，不能再黑灰底 */
+.link-card,
+a.link-card,
+.pad .link-card{
+  background:linear-gradient(135deg,#ffffff 0%,#fff2f8 100%) !important;
+  border:1px solid rgba(214,92,142,.28) !important;
+  color:#4b2f3f !important;
+  box-shadow:0 12px 30px rgba(214,92,142,.10) !important;
+}
+.link-card:hover{
+  border-color:rgba(214,92,142,.45) !important;
+  transform:translateY(-1px);
+}
+.link-card h3,
+a.link-card h3{
+  color:#c94f86 !important;
+}
+.link-card p,
+a.link-card p{
+  color:#7d5d70 !important;
+}
+/* 核心：所有步驟綠字改粉紫，不再出現螢光綠 */
+.step{
+  background:#ffffff !important;
+  border:1px solid rgba(214,92,142,.20) !important;
+  color:#4b2f3f !important;
+}
+.step b,
+.step strong,
+.step-list b,
+.step-list strong{
+  color:#c94f86 !important;
+}
+.flow-step b{
+  background:rgba(255,131,184,.18) !important;
+  color:#c94f86 !important;
+}
+.btn.primary,.pill.green,.tag.green,.status.win{
+  background:linear-gradient(135deg,#ff83b8,#f2a2c8) !important;
+  color:#fff !important;
+}
+.btn.ghost,.btn.warn{
+  background:#ffffff !important;
+  color:#b93f78 !important;
+  border:1px solid rgba(214,92,142,.24) !important;
+}
+.badge,.pill,.tag,.status.pending{
+  background:#fff0f6 !important;
+  color:#b93f78 !important;
+  border:1px solid rgba(214,92,142,.24) !important;
+}
+.status.loss{
+  background:#ffe3ee !important;
+  color:#c84f7e !important;
+}
+.details{
+  background:#ffffff !important;
+  border:1px solid rgba(214,92,142,.20) !important;
+}
+.details summary{
+  color:#b93f78 !important;
+}
+.details div{
+  color:#513344 !important;
+}
+input,select,textarea{
+  background:#fffafd !important;
+  color:#4b2f3f !important;
+  border:1px solid rgba(214,92,142,.28) !important;
+}
+table,th,td{
+  border-color:rgba(214,92,142,.18) !important;
+}
+a,.accent{
+  color:#c94f86 !important;
+}
+.notice{
+  background:#fff5fa !important;
+  border:1px solid rgba(214,92,142,.25) !important;
+  color:#5b3a4a !important;
+}
+.error{
+  background:#fff0f5 !important;
+  border-color:rgba(200,79,126,.24) !important;
+  color:#9d315f !important;
+}
+.mobile-menu{
+  background:linear-gradient(135deg,#ff83b8,#ffc4de) !important;
   color:#fff !important;
 }
 
