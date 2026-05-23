@@ -1,0 +1,16 @@
+女版 AI預測系統｜完整恢復版
+
+這包只需要使用 index.html。
+不要上傳 README、SQL、SYNTAX_CHECK。
+不要跑 Supabase。
+不要動男版 planet-ai-predict。
+
+操作：
+1. 到 GitHub 的 ai-predict-system
+2. 打開 index.html
+3. 點鉛筆編輯
+4. Ctrl+A 全選舊內容
+5. 貼上這份 index.html 的全部內容
+6. Commit changes
+7. 等 Vercel 1～3 分鐘
+8. 打開 https://ai-predict-system.vercel.app/ 按 Ctrl+F5
