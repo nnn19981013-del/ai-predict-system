@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>Planet AI Predict｜正式會員數據系統 V75</title>
+<title>AI預測系統｜正式會員數據系統</title>
 <style>
 :root {
   --bg:#05070d; --panel:#12141c; --panel2:#0d1d20; --line:rgba(255,255,255,.10);
@@ -134,19 +134,473 @@ button,input,select,textarea{font:inherit}
 .flow-step b{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:999px;background:rgba(22,214,163,.18);margin-bottom:10px}
 .clean-title{font-size:clamp(28px,5vw,52px);line-height:1.12}
 
+
+/* AI預測系統 正式會員數據系統：只調整視覺，不改資料與功能 */
+:root{
+  --bg:#fff9fc;
+  --panel:#ffffff;
+  --panel2:#fff3f8;
+  --green:#ff7fb8;
+  --blue:#ffb3d1;
+  --yellow:#ffd9ea;
+  --red:#ff5f9e;
+  --text:#5b3a4a;
+  --muted:#8e6b7d;
+}
+body{
+  background:
+    radial-gradient(circle at 18% 8%,rgba(255,164,204,.30),transparent 34%),
+    radial-gradient(circle at 90% 18%,rgba(255,206,225,.30),transparent 32%),
+    linear-gradient(135deg,#fffdfd 0%,#fff6fa 52%,#fff0f7 100%) !important;
+  color:var(--text) !important;
+}
+.logo,.brand-badge{
+  background:linear-gradient(135deg,#ff8fc2,#ffc6dd) !important;
+  color:#ffffff !important;
+}
+.hero,.card,.panel,.metric,.member-card,.flow-step,.preview-note{
+  border-color:rgba(255,143,194,.28) !important;
+  box-shadow:0 14px 36px rgba(255,143,194,.10) !important;
+  background:#ffffff !important;
+}
+.hero{
+  background:
+    radial-gradient(circle at 18% 20%,rgba(255,170,208,.18),transparent 40%),
+    linear-gradient(135deg,rgba(255,214,232,.55),rgba(255,244,249,.95)) !important;
+}
+.btn.primary,.pill.green,.tag.green,.status.win{
+  background:linear-gradient(135deg,#ff8fc2,#ffbad8) !important;
+  color:#ffffff !important;
+}
+.nav a.active,.side a.active{
+  background:rgba(255,143,194,.14) !important;
+  color:#b84c82 !important;
+}
+.nav a,.side a,.muted,small,span,p,label,li,div,h1,h2,h3,h4{
+  color:inherit;
+}
+a,.accent,.details summary{
+  color:#d14d87 !important;
+}
+input,select,textarea{
+  border-color:rgba(255,143,194,.28) !important;
+  background:#fffafd !important;
+  color:#5b3a4a !important;
+}
+table, th, td{
+  border-color:rgba(255,143,194,.22) !important;
+}
+.status.loss{
+  background:#ffe2ec !important;
+  color:#c5487f !important;
+}
+.status.pending{
+  background:#fff3f8 !important;
+  color:#b36a8c !important;
+}
+.pill,.tag{
+  background:#fff0f6 !important;
+  color:#c65489 !important;
+  border-color:rgba(255,143,194,.20) !important;
+}
+
+
+/* AI預測系統｜正式會員數據系統 */
+:root{
+  --bg:#fff8fc;
+  --panel:#ffffff;
+  --panel2:#fff1f7;
+  --green:#ff7fb8;
+  --blue:#f5a9d4;
+  --yellow:#ffd7e8;
+  --red:#ff5f9e;
+  --text:#513344;
+  --muted:#946f82;
+}
+body{
+  background:
+    radial-gradient(circle at 15% 8%,rgba(255,169,207,.32),transparent 34%),
+    radial-gradient(circle at 88% 18%,rgba(255,219,235,.45),transparent 34%),
+    linear-gradient(135deg,#ffffff 0%,#fff7fb 52%,#ffeef6 100%) !important;
+  color:var(--text) !important;
+}
+.app,.layout,.sidebar,aside,nav{
+  background:linear-gradient(180deg,#ffffff 0%,#fff6fa 100%) !important;
+  border-color:rgba(255,143,194,.24) !important;
+}
+.logo,.brand-badge{
+  background:linear-gradient(135deg,#ff7fb8,#ffc0da) !important;
+  color:#fff !important;
+  box-shadow:0 12px 28px rgba(255,127,184,.22) !important;
+}
+.hero,.card,.panel,.metric,.member-card,.flow-step,.preview-note{
+  background:rgba(255,255,255,.92) !important;
+  border:1px solid rgba(255,143,194,.26) !important;
+  box-shadow:0 14px 36px rgba(255,127,184,.10) !important;
+}
+.hero{
+  background:
+    radial-gradient(circle at 15% 20%,rgba(255,169,207,.22),transparent 40%),
+    linear-gradient(135deg,#fff9fc,#fff0f7) !important;
+}
+button,.btn{
+  border-color:rgba(255,127,184,.26) !important;
+}
+.btn.primary,.pill.green,.tag.green,.status.win{
+  background:linear-gradient(135deg,#ff7fb8,#ffc0da) !important;
+  color:#fff !important;
+}
+.btn.ghost,.btn.secondary{
+  background:#fff !important;
+  color:#c44e86 !important;
+}
+.nav button,.nav a,.side button,.side a{
+  background:transparent !important;
+  color:#7d5368 !important;
+  border-color:rgba(255,143,194,.16) !important;
+}
+.nav button.active,.nav a.active,.side button.active,.side a.active{
+  background:linear-gradient(135deg,rgba(255,127,184,.16),rgba(255,206,226,.30)) !important;
+  color:#bd4f83 !important;
+}
+input,select,textarea{
+  background:#fffafd !important;
+  color:#513344 !important;
+  border-color:rgba(255,143,194,.30) !important;
+}
+.pill,.tag,.status.pending{
+  background:#fff0f6 !important;
+  color:#bf4d82 !important;
+  border-color:rgba(255,143,194,.22) !important;
+}
+.status.loss{
+  background:#ffe5ef !important;
+  color:#c5487f !important;
+}
+a,.accent,.details summary{
+  color:#d14d87 !important;
+}
+table,th,td{
+  border-color:rgba(255,143,194,.18) !important;
+}
+
+
+/* V4 修正：粉白女性化、移除舊綠色、提升側欄與說明文字可讀性 */
+:root{
+  --bg:#fff8fc !important;
+  --panel:#ffffff !important;
+  --panel2:#fff2f7 !important;
+  --line:rgba(216,92,142,.20) !important;
+  --text:#4b2f3f !important;
+  --muted:#7f6072 !important;
+  --green:#d85c8e !important;
+  --blue:#f08ab7 !important;
+  --yellow:#ffcfdf !important;
+  --red:#c84f7e !important;
+  --chip:#fff0f6 !important;
+}
+html,body{
+  background:
+    radial-gradient(circle at 15% 8%,rgba(255,176,214,.34),transparent 34%),
+    radial-gradient(circle at 90% 15%,rgba(255,219,235,.42),transparent 34%),
+    linear-gradient(135deg,#fff 0%,#fff7fb 52%,#ffeef6 100%) !important;
+  color:#4b2f3f !important;
+}
+.app,.sidebar{
+  background:linear-gradient(180deg,#ffffff 0%,#fff4f9 100%) !important;
+  color:#4b2f3f !important;
+}
+.sidebar{
+  border-right:1px solid rgba(216,92,142,.20) !important;
+}
+.brand h1,.topbar h2,.hero h1,.hero h2,.panel-head h2,.card h3,.flow-step h3,.metric b,.member-card h3{
+  color:#4b2f3f !important;
+}
+.brand p,.nav-title,.muted,.hero p,.side-note,.meta,.metric span,.card p,.flow-step p,.panel p{
+  color:#7f6072 !important;
+}
+.logo,.brand-badge{
+  background:linear-gradient(135deg,#ff84b8,#ffc1dc) !important;
+  color:#ffffff !important;
+  box-shadow:0 10px 24px rgba(216,92,142,.18) !important;
+}
+.topbar{
+  background:rgba(255,255,255,.92) !important;
+  border-bottom:1px solid rgba(216,92,142,.18) !important;
+}
+.nav button{
+  color:#6e4b5d !important;
+}
+.nav button:hover,.nav button.active{
+  background:linear-gradient(135deg,rgba(255,132,184,.18),rgba(255,219,235,.40)) !important;
+  color:#b93f78 !important;
+}
+.nav button.locked{
+  opacity:.78 !important;
+}
+.side-note{
+  background:#ffffff !important;
+  border:1px solid rgba(255,132,184,.30) !important;
+  color:#6e4b5d !important;
+  box-shadow:0 10px 26px rgba(216,92,142,.08) !important;
+}
+.side-note b,.side-note strong{
+  color:#b93f78 !important;
+}
+.hero,.panel,.card,.metric,.member-card,.flow-step,.preview-note,.kpi{
+  background:rgba(255,255,255,.94) !important;
+  border:1px solid rgba(216,92,142,.22) !important;
+  box-shadow:0 14px 34px rgba(216,92,142,.10) !important;
+}
+.hero{
+  background:
+    radial-gradient(circle at 18% 20%,rgba(255,176,214,.25),transparent 42%),
+    linear-gradient(135deg,#fff,#fff1f7) !important;
+}
+.card{
+  background:linear-gradient(135deg,#ffffff 0%,#fff5fa 100%) !important;
+}
+.btn.primary,.pill.green,.tag.green,.status.win{
+  background:linear-gradient(135deg,#ff84b8,#f2a2c8) !important;
+  color:#ffffff !important;
+}
+.btn.ghost,.btn.warn{
+  background:#ffffff !important;
+  color:#b93f78 !important;
+  border:1px solid rgba(216,92,142,.22) !important;
+}
+.badge,.pill,.tag{
+  background:#fff0f6 !important;
+  color:#b93f78 !important;
+  border:1px solid rgba(216,92,142,.22) !important;
+}
+.status.pending{
+  background:#fff0f6 !important;
+  color:#8a6275 !important;
+}
+.status.loss{
+  background:#ffe3ee !important;
+  color:#c84f7e !important;
+}
+.status.win{
+  color:#ffffff !important;
+}
+.details{
+  background:#ffffff !important;
+  border:1px solid rgba(216,92,142,.18) !important;
+}
+.details summary{
+  color:#b93f78 !important;
+}
+.details div{
+  color:#513344 !important;
+}
+input,select,textarea{
+  background:#fffafd !important;
+  color:#4b2f3f !important;
+  border:1px solid rgba(216,92,142,.28) !important;
+}
+table,th,td{
+  border-color:rgba(216,92,142,.18) !important;
+}
+a,.accent{
+  color:#c64f86 !important;
+}
+.notice{
+  background:#fff5fa !important;
+  border:1px solid rgba(216,92,142,.25) !important;
+  color:#5b3a4a !important;
+}
+.error{
+  background:#fff0f5 !important;
+  border-color:rgba(200,79,126,.24) !important;
+  color:#9d315f !important;
+}
+.mobile-menu{
+  background:linear-gradient(135deg,#ff84b8,#ffc1dc) !important;
+  color:#fff !important;
+}
+
+
+/* V5 最終修正：一次修掉綠字、深色卡片、側欄低對比 */
+:root{
+  --bg:#fff8fc !important;
+  --panel:#ffffff !important;
+  --panel2:#fff4f9 !important;
+  --line:rgba(214,92,142,.24) !important;
+  --text:#4b2f3f !important;
+  --muted:#7d5d70 !important;
+  --green:#d85c8e !important;
+  --blue:#f3a2c8 !important;
+  --yellow:#ffe1ec !important;
+  --red:#c84f7e !important;
+  --chip:#fff0f6 !important;
+}
+html,body{
+  color:#4b2f3f !important;
+  background:
+    radial-gradient(circle at 14% 8%,rgba(255,180,215,.35),transparent 34%),
+    radial-gradient(circle at 88% 18%,rgba(255,222,237,.42),transparent 34%),
+    linear-gradient(135deg,#ffffff 0%,#fff7fb 54%,#ffeef6 100%) !important;
+}
+.app,.sidebar,aside,nav{
+  background:linear-gradient(180deg,#ffffff 0%,#fff6fa 100%) !important;
+  color:#4b2f3f !important;
+}
+.sidebar{
+  border-right:1px solid rgba(214,92,142,.22) !important;
+}
+.logo{
+  background:linear-gradient(135deg,#ff83b8,#ffc4de) !important;
+  color:#fff !important;
+}
+.brand h1,.topbar h2,.hero h1,.hero h2,.panel-head h2,.card h3,.flow-step h3,.metric b,.member-card h3{
+  color:#4b2f3f !important;
+}
+.brand p,.nav-title,.muted,.hero p,.side-note,.meta,.metric span,.card p,.flow-step p,.panel p{
+  color:#7d5d70 !important;
+}
+.topbar{
+  background:rgba(255,255,255,.96) !important;
+  border-bottom:1px solid rgba(214,92,142,.18) !important;
+}
+.nav button{
+  color:#6d4c5e !important;
+  background:transparent !important;
+}
+.nav button:hover,.nav button.active{
+  background:linear-gradient(135deg,rgba(255,131,184,.18),rgba(255,222,237,.48)) !important;
+  color:#b93f78 !important;
+}
+.nav button.locked{
+  opacity:.9 !important;
+}
+.side-note{
+  background:#ffffff !important;
+  border:1px solid rgba(255,131,184,.34) !important;
+  color:#5a3a4a !important;
+  box-shadow:0 10px 24px rgba(214,92,142,.08) !important;
+}
+.side-note b,.side-note strong{
+  color:#b93f78 !important;
+}
+.hero,.panel,.card,.metric,.member-card,.flow-step,.preview-note,.kpi{
+  background:rgba(255,255,255,.96) !important;
+  border:1px solid rgba(214,92,142,.23) !important;
+  box-shadow:0 14px 34px rgba(214,92,142,.10) !important;
+}
+.hero{
+  background:
+    radial-gradient(circle at 18% 20%,rgba(255,180,215,.25),transparent 42%),
+    linear-gradient(135deg,#fff,#fff1f7) !important;
+}
+.card{
+  background:linear-gradient(135deg,#ffffff 0%,#fff7fb 100%) !important;
+}
+/* 核心：投注教學與比分入口卡片，全部改成粉白，不能再黑灰底 */
+.link-card,
+a.link-card,
+.pad .link-card{
+  background:linear-gradient(135deg,#ffffff 0%,#fff2f8 100%) !important;
+  border:1px solid rgba(214,92,142,.28) !important;
+  color:#4b2f3f !important;
+  box-shadow:0 12px 30px rgba(214,92,142,.10) !important;
+}
+.link-card:hover{
+  border-color:rgba(214,92,142,.45) !important;
+  transform:translateY(-1px);
+}
+.link-card h3,
+a.link-card h3{
+  color:#c94f86 !important;
+}
+.link-card p,
+a.link-card p{
+  color:#7d5d70 !important;
+}
+/* 核心：所有步驟綠字改粉紫，不再出現螢光綠 */
+.step{
+  background:#ffffff !important;
+  border:1px solid rgba(214,92,142,.20) !important;
+  color:#4b2f3f !important;
+}
+.step b,
+.step strong,
+.step-list b,
+.step-list strong{
+  color:#c94f86 !important;
+}
+.flow-step b{
+  background:rgba(255,131,184,.18) !important;
+  color:#c94f86 !important;
+}
+.btn.primary,.pill.green,.tag.green,.status.win{
+  background:linear-gradient(135deg,#ff83b8,#f2a2c8) !important;
+  color:#fff !important;
+}
+.btn.ghost,.btn.warn{
+  background:#ffffff !important;
+  color:#b93f78 !important;
+  border:1px solid rgba(214,92,142,.24) !important;
+}
+.badge,.pill,.tag,.status.pending{
+  background:#fff0f6 !important;
+  color:#b93f78 !important;
+  border:1px solid rgba(214,92,142,.24) !important;
+}
+.status.loss{
+  background:#ffe3ee !important;
+  color:#c84f7e !important;
+}
+.details{
+  background:#ffffff !important;
+  border:1px solid rgba(214,92,142,.20) !important;
+}
+.details summary{
+  color:#b93f78 !important;
+}
+.details div{
+  color:#513344 !important;
+}
+input,select,textarea{
+  background:#fffafd !important;
+  color:#4b2f3f !important;
+  border:1px solid rgba(214,92,142,.28) !important;
+}
+table,th,td{
+  border-color:rgba(214,92,142,.18) !important;
+}
+a,.accent{
+  color:#c94f86 !important;
+}
+.notice{
+  background:#fff5fa !important;
+  border:1px solid rgba(214,92,142,.25) !important;
+  color:#5b3a4a !important;
+}
+.error{
+  background:#fff0f5 !important;
+  border-color:rgba(200,79,126,.24) !important;
+  color:#9d315f !important;
+}
+.mobile-menu{
+  background:linear-gradient(135deg,#ff83b8,#ffc4de) !important;
+  color:#fff !important;
+}
+
 </style>
 </head>
 <body>
 <div class="app">
   <aside class="sidebar" id="sidebar">
-    <div class="brand"><div class="logo">AI</div><div><h1>Planet AI Predict</h1><p>Live Member System</p></div></div>
+    <div class="brand"><div class="logo">AI</div><div><h1>AI預測系統</h1><p>Member Intelligence System</p></div></div>
     <div id="nav" class="nav"></div>
-    <div class="side-note"><b>使用說明</b><br>本平台內容僅供會員資料整理與賽事分析參考，不構成任何保證獲利或投注建議。</div>
+    <div class="side-note"><b>使用說明</b><br>本系統內容僅供會員資料整理與賽事分析參考，不構成任何保證獲利或投注建議。</div>
     <div class="side-note"><b>風險提醒</b><br>請理性評估風險，依自身狀況控管資金。所有賽事結果仍可能受臨場變化影響。</div>
   </aside>
   <main class="main">
     <header class="topbar">
-      <div><div class="meta">PLANET AI PREDICT</div><h2>正式會員數據系統</h2></div>
+      <div><div class="meta">AI PREDICT SYSTEM</div><h2>正式會員數據系統</h2></div>
       <div class="top-actions">
         <span id="userBadge" class="badge" style="display:none"></span>
         <button id="adminBtn" class="btn ghost" style="display:none" onclick="toggleAdmin()">後台登入</button>
@@ -172,8 +626,8 @@ button,input,select,textarea{font:inherit}
 </div>
 
 <script>
-const SUPABASE_URL = "https://zvxpurgkkydfrqriduho.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_76Om-gAyyuErJZgreaXlhA_s1ZEQf_f";
+const SUPABASE_URL = "https://zxwmtlywlzgrrpjmlmam.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_ZIBlNBi3e3f4JACGBSHofQ_FqysFJLE";
 const OFFICIAL_0502 = [
   {
     "event_no": "109",
@@ -417,13 +871,8 @@ async function rpcAny(list){
 }
 function normalize(p){
   return {
-    id:p.id,
-    eventNo:p.event_no||p.eventNo||"",
-    date:p.match_date||p.date||"",                 // 實際賽事日期：只用於顯示開賽與賽後歸檔
-    time:p.match_time||p.time||"",
-    publishDate:p.publish_date||p.publishDate||p.backend_created_date||p.backendCreatedDate||"", // 會員端顯示日期
-    backendCreatedDate:p.backend_created_date||p.backendCreatedDate||p.publish_date||p.publishDate||"",
-    sport:p.sport||"", league:p.league||"",
+    id:p.id, eventNo:p.event_no||p.eventNo||"", date:p.match_date||p.date||"", time:p.match_time||p.time||"",
+    publishDate:p.publish_date||p.publishDate||"", sport:p.sport||"", league:p.league||"",
     away:p.away_team||p.away||"", home:p.home_team||p.home||"", market:p.market||"", pick:p.pick||"",
     odds:p.odds||"", status:p.status||"未開賽", visibility:p.visibility||"paid", module:p.module||"member_today",
     analysis:p.analysis||"", review:p.review||"", parlayGroup:p.parlay_group||p.parlayGroup||"",
@@ -437,40 +886,25 @@ function isSettled(p){ return isWin(p)||isLoss(p); }
 function matchName(p){ return `${p.away||"客隊"} vs ${p.home||"主隊"}`; }
 function displayDate(d){ if(!d) return "-"; const a=String(d).split("-"); return a.length===3 ? `${Number(a[1])}/${Number(a[2])}` : d; }
 function fullTime(p){ return `${p.date||"-"} ${p.time||""}`.trim(); }
-function toTaipeiDateString(value){
-  if(!value) return "";
-  const s=String(value).trim();
-  if(/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
-  const d=new Date(s);
-  if(Number.isNaN(d.getTime())) return "";
-  const tw=new Date(d.toLocaleString("en-US",{timeZone:"Asia/Taipei"}));
-  const y=tw.getFullYear();
-  const m=String(tw.getMonth()+1).padStart(2,"0");
-  const day=String(tw.getDate()).padStart(2,"0");
-  return `${y}-${m}-${day}`;
-}
-function displayKey(p){
-  // 會員端今日資料一律看「後台建立日期 / 發布日期」，不要看實際賽事日期。
-  return p.publishDate || p.backendCreatedDate || toTaipeiDateString(p.createdAt) || "";
-}
-function publishTime(p){ const k=displayKey(p); return k ? `${k} 發布` : "尚未記錄"; }
-function latestDate(list){ const ds=list.map(displayKey).filter(Boolean).sort(); return ds.length ? ds[ds.length-1] : today(); }
+function publishTime(p){ return p.publishDate ? `${p.publishDate} 發布` : p.createdAt ? new Date(p.createdAt).toLocaleString("zh-TW") : "尚未記錄"; }
+function latestDate(list){ const ds=list.map(p=>p.date).filter(Boolean).sort(); return ds.length ? ds[ds.length-1] : today(); }
 function memberDisplayDate(list){
-  const ds=[...new Set(list.map(displayKey).filter(Boolean))].sort();
+  const ds=[...new Set(list.map(p=>p.date).filter(Boolean))].sort();
   const twToday=today();
   if(ds.includes(twToday)) return {date:twToday, mode:"today"};
+  const future=ds.find(d=>d>twToday);
+  if(future) return {date:future, mode:"future"};
   return {date:"", mode:"none"};
 }
 function memberDayRows(list){
-  const twToday=today();
   const info=memberDisplayDate(list);
-  const day=list.filter(p=>displayKey(p)===twToday);
-  return {info:{date:twToday, mode:day.length?"today":"none"}, day};
+  return {info, day: info.date ? list.filter(p=>p.date===info.date) : []};
 }
 function memberDateHero(info, title){
   const twToday=today();
-  if(info.mode==="today") return `<section class="hero"><div class="pill">台灣時間｜${displayDate(twToday)}｜資料發布日</div><h2>${displayDate(twToday)} ${title}</h2><p>目前顯示「後台建立日期 / 發布日期」為今日的會員資料；實際賽事日期只用於顯示開賽與賽後結算。</p></section>`;
-  return `<section class="hero"><div class="pill">台灣時間｜${displayDate(twToday)}｜資料發布日</div><h2>${displayDate(twToday)} 今日資料尚未發布</h2><p>目前沒有後台建立日期為今日的會員資料。每日 00:00 依台灣時間自動切換。</p></section>`;
+  if(info.mode==="today") return `<section class="hero"><div class="pill">台灣時間｜${displayDate(twToday)}</div><h2>${displayDate(info.date)} ${title}</h2><p>目前顯示今日實際開賽賽事。</p></section>`;
+  if(info.mode==="future") return `<section class="hero"><div class="pill">台灣時間｜${displayDate(twToday)}｜提前發布</div><h2>${displayDate(info.date)} ${title}</h2><p>今日尚無實際開賽資料，系統自動顯示下一個已發布賽事日，請以實際開賽日期為準。</p></section>`;
+  return `<section class="hero"><div class="pill">台灣時間｜${displayDate(twToday)}</div><h2>${displayDate(twToday)} 今日資料尚未發布</h2><p>目前沒有今日或未來已發布賽事。請等待後台更新會員資料。</p></section>`;
 }
 function marketKind(p){ const m=String(p.market||"").trim(); if(!m) return "其他"; if(m.includes("不讓")||m.includes("PK")) return "不讓分"; if(m.includes("大小")||m.includes("總分")||/^大|^小/.test(p.pick||"")) return "大小分"; if(m.includes("讓分")) return "讓分"; return m; }
 function visibleRows(){ return rows.filter(p=>p.visibility!=="hidden"); }
@@ -602,7 +1036,7 @@ function dashboard(title,list){
   const bySport={}, byMarket={};
   list.forEach(p=>{ (bySport[p.sport||"其他"] ||= []).push(p); (byMarket[marketKind(p)] ||= []).push(p); });
   const seg=(name,arr)=>{ const a=statData(arr); return `<div class="card"><h3>${esc(name)}</h3><p class="muted">已結算 ${a.settled}｜過 ${a.w}｜未過 ${a.l}</p><div class="meter"><div style="width:${Math.min(100,a.rate)}%"></div></div><p class="muted">勝率 ${a.rate}%</p></div>`; };
-  return `<section class="hero"><div class="pill">Planet AI Predict｜透明戰績</div><h2>${esc(title)}</h2><p>只呈現整體結果與分項表現，不把 30 場逐場明細塞滿畫面。失利原因集中在「失利覆盤」。</p></section>
+  return `<section class="hero"><div class="pill">AI預測系統｜透明戰績</div><h2>${esc(title)}</h2><p>只呈現整體結果與分項表現，不把 30 場逐場明細塞滿畫面。失利原因集中在「失利覆盤」。</p></section>
   <div class="dashboard">
     <div class="metric"><b>${s.total}</b><span>總資料</span></div>
     <div class="metric"><b>${s.pend}</b><span>未開賽</span></div>
@@ -618,7 +1052,7 @@ function card(p,admin=false){
   return `<article class="card">
     <div class="card-top"><div><h3>${esc(p.pick||matchName(p))}</h3><div class="meta">${esc(p.league||p.sport||"-")}｜${esc(matchName(p))}｜編號 ${esc(p.eventNo||"待補")}</div></div><span class="status ${statusClass(p)}">${esc(p.status)}</span></div>
     <div class="kpis">
-      ${kpi("會員顯示日期",displayKey(p)||"-")}${kpi("實際開賽時間",fullTime(p))}
+      ${kpi("實際開賽時間",fullTime(p))}
       ${kpi("盤口",p.market)}
       ${kpi("推薦方向",p.pick)}
       ${kpi("參考賠率",p.odds)}
@@ -644,7 +1078,7 @@ function parlayCard(g,admin=false){
 function renderList(list,admin=false){ return list.length?list.map(p=>card(p,admin)).join(""):`<div class="empty">目前沒有資料。</div>`; }
 
 function pageHome(){
-  return `<section class="hero"><div class="pill">Planet AI Predict｜會員數據平台</div><h1 class="clean-title">每天進系統，看懂今日主推、串關與賽後紀錄。</h1><p>公開端只說明系統怎麼用，不顯示付費賽事內容。會員登入後，系統會依台灣時間顯示今日發布的主推、串關與覆盤。</p><button class="btn primary" onclick="toggleMember()">會員登入</button></section>
+  return `<section class="hero"><div class="pill">AI預測系統｜女性化會員數據平台</div><h1 class="clean-title">每天登入系統，清楚掌握今日主推、串關與賽後紀錄。</h1><p>公開端只說明系統怎麼用，不顯示付費賽事內容。會員登入後，系統會依台灣時間顯示今日或下一個已發布賽事日。</p><button class="btn primary" onclick="toggleMember()">會員登入</button></section>
   <div class="flow-grid">
     <div class="flow-step"><b>1</b><h3>先看總覽</h3><p class="muted">掌握今天會員資料、主推單場與串關組合。</p></div>
     <div class="flow-step"><b>2</b><h3>再看方向</h3><p class="muted">每場包含賽事編號、開賽時間、盤口、方向與參考賠率。</p></div>
@@ -655,10 +1089,10 @@ function memberHome(){
   const list=memberRows();
   const {info, day}=memberDayRows(list);
   const hero=memberDateHero(info, "會員賽事資料");
-  const statusText = info.mode==="today" ? "今日發布資料已開通" : "今日發布資料尚未建立";
+  const statusText = info.mode==="today" ? "今日資料已開通" : info.mode==="future" ? "今日尚無賽事，顯示下一個已發布賽事日" : "今日資料尚未發布";
   return `${hero}${loadError?`<div class="error">${esc(loadError)}</div>`:""}<div class="preview-note"><b>會員使用順序：</b>先看「會員資料總覽」→ 想看重點看「主推單場」→ 想看倍數組合看「串關配置」→ 賽後回來看「戰績儀表板 / 失利覆盤」。</div><div class="dashboard">
     <div class="metric"><b>${displayDate(today())}</b><span>台灣今日日期</span></div>
-    <div class="metric"><b>${info.date?displayDate(info.date):"-"}</b><span>目前顯示發布日</span></div>
+    <div class="metric"><b>${info.date?displayDate(info.date):"-"}</b><span>目前顯示賽事日</span></div>
     <div class="metric"><b>${day.length}</b><span>本頁賽事數</span></div>
     <div class="metric"><b>${statusText}</b><span>資料狀態</span></div>
   </div>
@@ -674,7 +1108,7 @@ function memberPage(kind){
   const {info, day}=memberDayRows(list);
   const heroTitle = kind==="member_single" ? "｜主推單場" : kind==="member_parlay" ? "｜串關配置" : "｜會員資料總覽";
   const hero=memberDateHero(info, heroTitle);
-  if(!day.length) return `${hero}<div class="empty">目前沒有後台建立日期為今日的會員資料。</div>`;
+  if(!day.length) return `${hero}<div class="empty">目前沒有符合台灣日期的會員資料。</div>`;
   if(kind==="member_single") return `${hero}${renderList(day.filter(p=>p.module==="main_single"))}`;
   if(kind==="member_parlay") return `${hero}${parlayGroups(day).map(g=>parlayCard(g)).join("")||`<div class="empty">目前沒有串關資料。</div>`}`;
   return `${hero}${dashboard(displayDate(info.date)+" 會員資料總覽",day)}<section class="panel"><div class="panel-head"><h2>主推單場</h2></div><div class="pad">${renderList(day.filter(p=>p.module==="main_single"))}</div></section><section class="panel"><div class="panel-head"><h2>串關配置</h2></div><div class="pad">${parlayGroups(day).map(g=>parlayCard(g)).join("")||`<div class="empty">目前沒有串關資料。</div>`}</div></section>`;
@@ -685,11 +1119,11 @@ function recordPage(reviewOnly=false){
   return dashboard("近 30 場戰績儀表板", list.slice(0,30));
 }
 function publicRecord(){
-  return `<section class="hero"><div class="pill">Planet AI Predict｜公開摘要</div><h2>公開端僅展示概要，不公開付費賽事細節。</h2><p>完整主推、串關配置、賽前分析與覆盤須登入會員後查看。</p></section><div class="dashboard"><div class="metric"><b>會員限定</b><span>完整資料</span></div><div class="metric"><b>透明保留</b><span>過關 / 未過</span></div><div class="metric"><b>覆盤制度</b><span>失利補檢討</span></div></div>`;
+  return `<section class="hero"><div class="pill">AI預測系統｜公開摘要</div><h2>公開端僅展示概要，不公開付費賽事細節。</h2><p>完整主推、串關配置、賽前分析與覆盤須登入會員後查看。</p></section><div class="dashboard"><div class="metric"><b>會員限定</b><span>完整資料</span></div><div class="metric"><b>透明保留</b><span>過關 / 未過</span></div><div class="metric"><b>覆盤制度</b><span>失利補檢討</span></div></div>`;
 }
 function guidePage(){
   return `<section class="hero">
-    <div class="pill">Planet AI Predict｜使用指南</div>
+    <div class="pill">AI預測系統｜使用指南</div>
     <h2>這套系統不是單純報牌，而是每日賽事資料流程。</h2>
     <p>免費端可以先理解系統邏輯；會員端才會看到完整賽事、方向、盤口、賽前分析與賽後紀錄。</p>
   </section>
@@ -729,7 +1163,7 @@ function guidePage(){
 }
 
 function bettingPage(){
-  return `<section class="hero"><div class="pill">Planet AI Predict｜台灣運彩投注教學</div><h2>把會員資料正確對應到官方投注流程。</h2><p>本頁不是鼓勵加碼，而是讓會員知道如何核對賽事編號、盤口、賠率與投注方式。實際投注請以台灣運彩官方頁面與實體店面資訊為準。</p></section>
+  return `<section class="hero"><div class="pill">AI預測系統｜台灣運彩投注教學</div><h2>把會員資料正確對應到官方投注流程。</h2><p>本頁不是鼓勵加碼，而是讓會員知道如何核對賽事編號、盤口、賠率與投注方式。實際投注請以台灣運彩官方頁面與實體店面資訊為準。</p></section>
   <section class="panel"><div class="panel-head"><div><h2>投注前核對順序</h2><p class="muted">每次下注前都照這個順序檢查，避免押錯場、押錯盤或時間已過。</p></div></div>
     <div class="pad step-list">
       <div class="step"><b>步驟 1｜核對實際開賽時間</b><br>會員資料可能前一日發布，請以「實際開賽時間」為準。</div>
@@ -754,7 +1188,7 @@ function bettingPage(){
   </section>`;
 }
 function scoresPage(){
-  return `<section class="hero"><div class="pill">Planet AI Predict｜比分 / 直播入口</div><h2>追蹤比分可以用官方與授權來源，不把第三方連結當成保證。</h2><p>比分與直播資訊會依授權、地區與賽事而不同。平台提供入口協助核對，不保證第三方頁面即時性或可觀看性。</p></section>
+  return `<section class="hero"><div class="pill">AI預測系統｜比分 / 直播入口</div><h2>追蹤比分可以用官方與授權來源，不把第三方連結當成保證。</h2><p>比分與直播資訊會依授權、地區與賽事而不同。平台提供入口協助核對，不保證第三方頁面即時性或可觀看性。</p></section>
   <section class="panel"><div class="panel-head"><div><h2>常用比分入口</h2><p class="muted">下注前核對開賽，賽中追蹤比分，賽後核對賽果。</p></div></div>
     <div class="pad link-grid">
       <a class="link-card" target="_blank" rel="noopener" href="https://www.sportslottery.com.tw/sportsbook/"><h3>台灣運彩即時比分 / 賽果</h3><p>官方線上平台含即時比分、賽果查詢與投注代碼等入口。</p></a>
@@ -773,31 +1207,29 @@ function scoresPage(){
   </section>`;
 }
 function contactPage(){
-  return `<section class="hero"><div class="pill">Planet AI Predict｜客服中心</div><h2>開通、續費、資料問題，請從官方客服管道聯繫。</h2><p>公開端不提供付費內容；已開通會員若看不到資料，請先回傳啟用碼、登入畫面與問題頁截圖。</p></section>
-  <section class="panel"><div class="panel-head"><div><h2>客服聯絡資訊</h2><p class="muted">這裡保留你原本導流需要的 IG 與 TG 入口。</p></div></div>
-    <div class="pad link-grid">
-      <a class="link-card" target="_blank" rel="noopener" href="https://www.instagram.com/planet._.word_/"><h3>IG 私訊開通</h3><p>帳號：planet._.word_。適合會員開通、續費、付款回報與使用問題。</p></a>
-      <a class="link-card" target="_blank" rel="noopener" href="https://t.me/+ZlBOBLpBnCs3Mzg1"><h3>TG 頻道 / 客服</h3><p>點擊加入官方 TG 頻道，適合會員開通通知、每日資料提醒、續費與客服聯繫。</p></a>
-    </div>
+  return `<section class="hero">
+    <div class="pill">AI預測系統｜客服中心</div>
+    <h2>客服與會員開通</h2>
+    <p>如需開通會員、續費、查詢登入問題，請優先使用下方官方聯絡入口。</p>
   </section>
-  <section class="panel"><div class="panel-head"><div><h2>回報問題請提供</h2></div></div>
-    <div class="pad step-list">
-      <div class="step"><b>會員問題</b><br>啟用碼、是否顯示永久會員 / 剩餘天數、登入後看到的頁面截圖。</div>
-      <div class="step"><b>資料問題</b><br>賽事編號、開賽時間、盤口、推薦方向與你看到的異常畫面。</div>
-      <div class="step"><b>手機問題</b><br>手機型號、瀏覽器或 TG 內建瀏覽器、選單是否能點、頁面是否跑版。</div>
+  <section class="panel">
+    <div class="panel-head"><div><h2>官方聯絡方式</h2><p class="muted">請確認連結正確，避免私訊到非官方帳號。</p></div></div>
+    <div class="pad grid">
+      <div class="card"><h3>Telegram 客服</h3><p class="muted">會員開通、續費、系統問題請由 TG 聯繫。</p><p><a href="https://t.me/+0XhzHE8NKI9hNGM1" target="_blank" rel="noopener">前往 Telegram</a></p></div>
+      <div class="card"><h3>Instagram</h3><p class="muted">可透過 IG 私訊詢問會員方案與系統使用方式。</p><p><a href="https://www.instagram.com/155.feel?igsh=MXZkMmRzamp4aHlqdw%3D%3D&utm_source=qr" target="_blank" rel="noopener">前往 Instagram</a></p></div>
+      <div class="card"><h3>開通提醒</h3><p class="muted">完成付款後，請提供會員啟用碼或備註資訊，客服確認後協助開通權限。</p></div>
     </div>
   </section>`;
 }
-
 function adminHome(){
-  return `<section class="hero"><div class="pill">Planet AI Predict｜後台端</div><h2>後台只保留正式營運需要的功能。</h2><p>新增賽事、賽後結算、會員管理、批量匯入與系統狀態。後台顯示邏輯與會員端一致，避免表格擠壓與長文字直排。</p></section><div class="preview-note"><b>今日操作建議：</b>先新增 / 修改賽事，賽後再到「賽後結算」更新過關或未過。會員權限相關操作請到「會員管理」。</div>${loadError?`<div class="error">${esc(loadError)}</div>`:""}<div class="grid"><div class="card" onclick="go('admin_builder')"><h3>新增 / 修改賽事</h3><p class="muted">建立主推單場或串關配置。</p></div><div class="card" onclick="go('admin_settle')"><h3>賽後結算</h3><p class="muted">快速標記過關 / 未過並補覆盤。</p></div><div class="card" onclick="go('admin_members')"><h3>會員管理</h3><p class="muted">續費、停用、改永久、修改備註。</p></div><div class="card" onclick="go('admin_import')"><h3>批量匯入</h3><p class="muted">一次匯入多場賽事或戰績。</p></div></div>`;
+  return `<section class="hero"><div class="pill">AI預測系統｜後台端</div><h2>後台只保留正式營運需要的功能。</h2><p>新增賽事、賽後結算、會員管理、批量匯入與系統狀態。後台顯示邏輯與會員端一致，避免表格擠壓與長文字直排。</p></section><div class="preview-note"><b>今日操作建議：</b>先新增 / 修改賽事，賽後再到「賽後結算」更新過關或未過。會員權限相關操作請到「會員管理」。</div>${loadError?`<div class="error">${esc(loadError)}</div>`:""}<div class="grid"><div class="card" onclick="go('admin_builder')"><h3>新增 / 修改賽事</h3><p class="muted">建立主推單場或串關配置。</p></div><div class="card" onclick="go('admin_settle')"><h3>賽後結算</h3><p class="muted">快速標記過關 / 未過並補覆盤。</p></div><div class="card" onclick="go('admin_members')"><h3>會員管理</h3><p class="muted">續費、停用、改永久、修改備註。</p></div><div class="card" onclick="go('admin_import')"><h3>批量匯入</h3><p class="muted">一次匯入多場賽事或戰績。</p></div></div>`;
 }
 function adminBuilder(){
-  return `<section class="panel"><div class="panel-head"><div><h2>新增 / 修改賽事</h2><p class="muted">後台建立日期＝會員端顯示日期；實際開賽日期＝比賽真正日期。今天分析明天凌晨賽事，後台建立日期填今天，實際開賽日期填明天。</p></div></div><div class="form" id="builderForm">
+  return `<section class="panel"><div class="panel-head"><div><h2>新增 / 修改賽事</h2><p class="muted">日期請填「實際開賽日期」。今天分析明天賽事，日期就填明天。</p></div></div><div class="form" id="builderForm">
     <label>資料ID<input id="b_id" placeholder="修改時自動帶入，可留空"></label>
     <label>賽事編號<input id="b_event_no" placeholder="例：319"></label>
-    <label>後台建立日期 / 會員顯示日期<input id="b_publish_date" type="date" value="${today()}"></label>
-    <label>實際賽事日期<input id="b_date" type="date" value="${tomorrow()}"></label>
+    <label>後台建立日期<input id="b_publish_date" type="date" value="${today()}"></label>
+    <label>實際開賽日期<input id="b_date" type="date" value="${tomorrow()}"></label>
     <label>實際開賽時間<input id="b_time" placeholder="09:30"></label>
     <label>類型<select id="b_module"><option value="main_single">主推單場</option><option value="parlay_combo">串關配置</option></select></label>
     <label>串關組合名稱<input id="b_parlay" placeholder="例：5/4 A｜3關串關｜總賠率 3.85"></label>
@@ -904,7 +1336,7 @@ async function editNote(code,current){ const note=prompt("修改會員備註",cu
 async function deactivateCode(code){ try{ await rpcAny([{name:"admin_deactivate_activation_code",body:{p_admin_password:adminPassword,p_code:code}}]); alert("已停用"); await loadData(); render(); }catch(e){ alert("停用失敗："+e.message); } }
 
 function adminImport(){
-  return `<section class="panel"><div class="panel-head"><div><h2>批量匯入賽事 / 戰績</h2><p class="muted">可貼上 JSON 一次匯入。你可以自己依格式貼入；若每天把賽事傳給我，我也可以幫你整理成可直接貼上的 JSON。</p></div></div><div class="form"><label>戰績 JSON<textarea id="bulkJson" placeholder="貼上 JSON 陣列"></textarea></label></div><div class="actions"><button class="btn primary" onclick="importOfficial()">V75 一鍵重整 5/2 已結算資料</button><button class="btn ghost" onclick="$('bulkJson').value=JSON.stringify(OFFICIAL_0502,null,2)">載入 V75 正式 JSON</button><button class="btn primary" onclick="bulkImport()">匯入目前 JSON</button><button class="btn ghost" onclick="systemCheck()">V75 上線檢查</button></div></section>
+  return `<section class="panel"><div class="panel-head"><div><h2>批量匯入賽事 / 戰績</h2><p class="muted">可貼上 JSON 一次匯入。你可以自己依格式貼入；若每天把賽事傳給我，我也可以幫你整理成可直接貼上的 JSON。</p></div></div><div class="form"><label>戰績 JSON<textarea id="bulkJson" placeholder="貼上 JSON 陣列"></textarea></label></div><div class="actions"><button class="btn primary" onclick="importOfficial()">V74 Final 一鍵重整 5/2 已結算資料</button><button class="btn ghost" onclick="$('bulkJson').value=JSON.stringify(OFFICIAL_0502,null,2)">載入 V74 Final 正式 JSON</button><button class="btn primary" onclick="bulkImport()">匯入目前 JSON</button><button class="btn ghost" onclick="systemCheck()">V74 Final 上線檢查</button></div></section>
   <section class="panel"><div class="panel-head"><div><h2>資料刪除管理</h2><p class="muted">用來清除匯入錯誤、重複日期或不要的串關組。單筆刪除也可在賽事卡片按「刪除」。</p></div></div>
     <div class="pad">
       <div class="delete-tools">
